@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Electron App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="window">
+    <header class="titlebar" data-window-controls>
+      <div class="titlebar-drag-region" style="-webkit-app-region: drag;">
+        <span class="titlebar-title" id="windowTitle">Untitled</span>
+      </div>
+      <div class="titlebar-controls" style="-webkit-app-region: no-drag;">
+        <button class="titlebar-btn" data-action="minimize" aria-label="Minimize">−</button>
+        <button class="titlebar-btn" data-action="maximize" aria-label="Maximize">□</button>
+        <button class="titlebar-btn" data-action="close" aria-label="Close">×</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar" role="navigation" aria-label="File explorer">
+        <div class="sidebar-header">Explorer</div>
+        <ul class="file-tree" role="tree" aria-label="Project files">
+          <li class="file-tree-item" role="treeitem" tabindex="0" aria-selected="true">
+            <span class="file-icon" aria-hidden="true">📁</span>
+            <span class="file-name">src</span>
+          </li>
+          <li class="file-tree-item" role="treeitem" tabindex="-1">
+            <span class="file-icon" aria-hidden="true">📄</span>
+            <span class="file-name">main.js</span>
+          </li>
+          <li class="file-tree-item" role="treeitem" tabindex="-1">
+            <span class="file-icon" aria-hidden="true">📄</span>
+            <span class="file-name">preload.js</span>
+          </li>
+        </ul>
+      </aside>
+
+      <main class="editor-area" role="main">
+        <div class="tab-bar" role="tablist" aria-label="Open editors">
+          <button class="tab" role="tab" aria-selected="true" aria-controls="panel-main" id="tab-main" tabindex="0">
+            <span class="tab-title">main.js</span>
+            <button class="tab-close" aria-label="Close main.js" tabindex="-1">×</button>
+          </button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="panel-preload" id="tab-preload" tabindex="-1">
+            <span class="tab-title">preload.js</span>
+            <button class="tab-close" aria-label="Close preload.js" tabindex="-1">×</button>
+          </button>
+          <button class="tab-new" aria-label="New file" tabindex="0">+</button>
+        </div>
+        <div class="editor-panel" role="tabpanel" id="panel-main" aria-labelledby="tab-main">
+          <textarea class="editor" spellcheck="false" aria-label="Editor for main.js"></textarea>
+        </div>
+        <div class="editor-panel hidden" role="tabpanel" id="panel-preload" aria-labelledby="tab-preload">
+          <textarea class="editor" spellcheck="false" aria-label="Editor for preload.js"></textarea>
+        </div>
+      </main>
+
+      <aside class="panel" role="complementary" aria-label="Terminal">
+        <div class="panel-header">
+          <span>Terminal</span>
+          <button class="panel-action" aria-label="Split terminal">⎘</button>
+        </div>
+        <div class="panel-content" aria-live="polite"></div>
+      </aside>
+    </div>
+
+    <footer class="statusbar" role="status" aria-live="polite">
+      <div class="statusbar-left">
+        <span class="status-item" id="gitBranch">main</span>
+        <span class="status-item" id="fileEncoding">UTF-8</span>
+        <span class="status-item" id="lineEnding">LF</span>
+      </div>
+      <div class="statusbar-center">
+        <span class="status-item" id="cursorPosition">Ln 1, Col 1</span>
+      </div>
+      <div class="statusbar-right">
+        <span class="status-item" id="languageMode">JavaScript</span>
+        <button class="status-item" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">☀</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

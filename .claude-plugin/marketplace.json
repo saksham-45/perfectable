@@ -1,0 +1,12 @@
+{
+  "name": "perfectable",
+  "owner": { "name": "saksham-45" },
+  "plugins": [
+    {
+      "name": "perfectable",
+      "description": "Audit IDE and desktop-app UI for LLM coding harnesses",
+      "source": "./",
+      "version": "1.0.0"
+    }
+  ]
+}

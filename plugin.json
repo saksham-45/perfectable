@@ -1,0 +1,11 @@
+{
+  "name": "perfectable",
+  "version": "1.0.0",
+  "description": "Audit, critique, and harden IDE and desktop-app UI (Electron, Tauri, native). Catches web-shaped chrome, missing keyboard paths, and platform-HIG drift.",
+  "author": {
+    "name": "saksham-45",
+    "url": "https://github.com/saksham-45"
+  },
+  "homepage": "https://github.com/saksham-45/perfectable",
+  "keywords": ["ide", "desktop", "electron", "tauri", "audit", "design"]
+}

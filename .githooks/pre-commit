@@ -1,0 +1,15 @@
+#!/bin/sh
+# Commits in this repo must be authored as saksham-45.
+name=$(git config --get user.name)
+email=$(git config --get user.email)
+if [ "$name" != "saksham-45" ]; then
+  echo "perfectable: git user.name must be saksham-45 (got '$name')" >&2
+  exit 1
+fi
+case "$email" in
+  *saksham-45*|*saksham.srivastava*) ;;
+  *)
+    echo "perfectable: git user.email must belong to saksham-45 (got '$email')" >&2
+    exit 1
+    ;;
+esac

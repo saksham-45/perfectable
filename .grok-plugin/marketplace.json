@@ -1,0 +1,15 @@
+{
+  "name": "perfectable",
+  "description": "Perfectable — audit skill for IDE and desktop-app UI",
+  "owner": { "name": "saksham-45" },
+  "plugins": [
+    {
+      "name": "perfectable",
+      "description": "Audit, critique, shape, polish, harden, and adapt IDE and desktop-app UI",
+      "category": "development",
+      "source": { "type": "local", "path": "./" },
+      "version": "1.0.0",
+      "keywords": ["ide", "desktop", "electron", "tauri", "audit"]
+    }
+  ]
+}
