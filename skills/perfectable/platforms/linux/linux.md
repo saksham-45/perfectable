@@ -2,6 +2,8 @@
 
 Load before scoring platform conformance on `linux` or `adaptive`. Target the desktop the app actually ships on (GNOME, KDE, or a declared toolkit). Do not fake macOS chrome on GNOME.
 
+**Last verified:** GNOME 47 / libadwaita 1.6 / KDE Frameworks 6.5 / Qt 6.7. Review annually.
+
 ## Windowing
 
 - Client-side decorations follow the toolkit: libadwaita header bar on GNOME; native decorations on KDE unless the app has a reason. Window controls on the side the user configured (not hardcoded left dots).
@@ -12,7 +14,7 @@ Load before scoring platform conformance on `linux` or `adaptive`. Target the de
 
 ## Keyboard
 
-`Ctrl+N`, `O`, `S`, `W`, `Q`, `Z`. `F10` / `Alt` for menus where the desktop uses them. Esc backs out. Follow the desktop’s close-vs-quit convention (`Ctrl+Q` quit, `Ctrl+W` close).
+`Ctrl+N`, `O`, `S`, `W`, `Q`, `Z`. `F10` / `Alt` for menus where the desktop uses them. Esc backs out. Follow the desktop's close-vs-quit convention (`Ctrl+Q` quit, `Ctrl+W` close).
 
 ## Appearance
 

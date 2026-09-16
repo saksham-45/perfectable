@@ -164,9 +164,9 @@ export const RULES = [
     description: 'A control is invisible until hover. Desktop chrome needs a persistent or keyboard-visible affordance.',
     test(file, content) {
       const tailwind = /opacity-0[^\n]{0,80}hover:opacity-(?:100|80|90)/.test(content);
-      const css = /opacity\s*:\s*0[\s\S]{0,160}:hover[\s\S]{0,80}opacity\s*:\s*(?:1|0?\.[8-9])/.test(content);
+      const css = /opacity\s*:\s*0(?![.\d])[\s\S]{0,160}:hover[\s\S]{0,80}opacity\s*:\s*(?:1|0?\.[8-9])/.test(content);
       if (tailwind || css) {
-        const idx = content.search(/opacity-0|opacity\s*:\s*0/);
+        const idx = content.search(/opacity-0|opacity\s*:\s*0(?![.\d])/);
         return [hit(this, file, content, idx < 0 ? 0 : idx)];
       }
       return [];
@@ -273,8 +273,8 @@ export const RULES = [
     description: 'Preferences belong in a window or a searchable panel, not a modal over the editor.',
     test(file, content) {
       if (!SETTINGS_FILE.test(file)) return [];
-      if (/\b(Dialog|Modal|AlertDialog)\b/.test(content) || /@radix-ui\/react-dialog/.test(content)) {
-        const idx = content.search(/Dialog|Modal|AlertDialog/);
+      if (/\b(Dialog|Modal|AlertDialog)\b/i.test(content) || /@radix-ui\/react-dialog/i.test(content) || /role\s*=\s*["']dialog["']/i.test(content)) {
+        const idx = content.search(/Dialog|Modal|AlertDialog|role\s*=\s*["']dialog["']/i);
         return [hit(this, file, content, idx < 0 ? 0 : idx)];
       }
       return [];
@@ -310,6 +310,8 @@ export const RULES = [
     test(file, content) {
       if (!EDITOR_FILE.test(file) && !/<textarea\b/.test(content)) return [];
       if (/monaco|codemirror|lezer|prosemirror/.test(content)) return [];
+      // React controlled components are fine - they use onChange with setState
+      if (/useState|useReducer|createSignal|useSignal/.test(content) && /onChange\s*=/.test(content)) return [];
       const m = content.match(/<textarea\b[^>]*\bvalue\s*=\s*\{/);
       if (m) return [hit(this, file, content, m.index)];
       return [];
@@ -320,7 +322,7 @@ export const RULES = [
     category: 'slop',
     severity: 'advisory',
     name: 'VS Code activity-bar clone',
-    description: 'A 48px icon activity bar is the default LLM IDE skin. Only keep it if the product actually has several peer tools.',
+    description: 'A 48px icon activity bar is the default LLM workbench. Only keep it if the product actually has several peer tools.',
     test(file, content) {
       if (!/activity/i.test(file)) return [];
       if (matchesAll(content, [/w-12\b|width:\s*48px/, /h-12\b|height:\s*48px/]) || /activity[-]?bar/i.test(content) && /w-12\b/.test(content)) {
@@ -447,13 +449,40 @@ function allowed(finding, ignores, config) {
   return true;
 }
 
-export function detectFiles(files, { config, ctx, immediate = false } = {}) {
+export async function detectFiles(files, { config, ctx, immediate = false } = {}) {
   const findings = [];
   const rules = immediate ? RULES.filter((r) => r.immediate) : RULES;
+  
+  // Determine project root from first file
+  const projectRoot = files.length > 0 ? path.dirname(files[0].file) : process.cwd();
+  // Walk up to find actual root (where .perfectable or package.json exists)
+  let root = projectRoot;
+  const { root: sysRoot, homedir } = { root: path.parse(root).root, homedir: process.env.HOME };
+  while (root !== sysRoot && root !== homedir) {
+    if (fs.existsSync(path.join(root, '.perfectable')) || fs.existsSync(path.join(root, 'package.json'))) break;
+    root = path.dirname(root);
+  }
+  
+  // Load custom rules
+  let customRules = [];
+  if (config?.detector?.customRules?.length) {
+    for (const rulePath of config.detector.customRules) {
+      try {
+        const resolved = path.resolve(root, rulePath);
+        const mod = await import('file://' + resolved);
+        if (mod.RULES) customRules.push(...mod.RULES);
+      } catch (e) {
+        console.warn(`Failed to load custom rule: ${rulePath}`, e);
+      }
+    }
+  }
+  
+  const allRules = [...rules, ...customRules];
+  
   for (const { file, content, rel } of files) {
     if (shouldIgnoreFile(rel, config)) continue;
     const ignores = parseInlineIgnores(content);
-    for (const rule of rules) {
+    for (const rule of allRules) {
       if (shouldIgnoreRule(rule.id, config)) continue;
       let hits = [];
       try {
@@ -503,15 +532,45 @@ function loadTargets(root, targets) {
   }).filter((f) => f.content && isUiFile(f.file));
 }
 
+const RED = '\x1b[31m';
+const YELLOW = '\x1b[33m';
+const CYAN = '\x1b[36m';
+const GREEN = '\x1b[32m';
+const BOLD = '\x1b[1m';
+const RESET = '\x1b[0m';
+
+const isTTY = process.stdout.isTTY;
+function colorize(text, color) {
+  return isTTY ? `${color}${text}${RESET}` : text;
+}
+
+function severityColor(severity) {
+  switch (severity) {
+    case 'error': return RED;
+    case 'warning': return YELLOW;
+    case 'advisory': return CYAN;
+    default: return RESET;
+  }
+}
+
 function printHuman(findings) {
   if (!findings.length) {
-    process.stdout.write('perfectable: clean\n');
+    process.stdout.write(colorize('perfectable: clean\n', GREEN));
     return;
   }
   for (const f of findings) {
-    process.stdout.write(`${f.file}:${f.line}  [${f.severity}] ${f.id}  ${f.name}\n  ${f.message}\n  ${f.snippet}\n`);
+    const sevColor = severityColor(f.severity);
+    const sevLabel = colorize(`[${f.severity.toUpperCase()}]`, sevColor);
+    const idLabel = colorize(f.id, CYAN);
+    process.stdout.write(`${f.file}:${f.line}  ${sevLabel} ${idLabel}  ${f.name}\n  ${f.message}\n  ${colorize(f.snippet, RESET)}\n`);
   }
-  process.stdout.write(`\n${findings.length} finding(s)\n`);
+  const counts = findings.reduce((acc, f) => { acc[f.severity] = (acc[f.severity] || 0) + 1; return acc; }, { error: 0, warning: 0, advisory: 0 });
+  const summary = [
+    colorize(`Errors: ${counts.error}`, RED),
+    colorize(`Warnings: ${counts.warning}`, YELLOW),
+    colorize(`Advisories: ${counts.advisory}`, CYAN),
+  ].join('  ');
+  process.stdout.write(`\n${findings.length} finding(s)  ${summary}\n`);
 }
 
 function counts(findings) {
@@ -523,26 +582,140 @@ function counts(findings) {
 export async function detectCli(argv = process.argv.slice(2)) {
   const args = argv.filter((a) => a !== '--');
   if (args.includes('--help') || args.includes('-h')) {
-    process.stdout.write(`Usage: detect.mjs [--json] [--immediate] [--no-config] [path ...]\nExit 0 clean, 2 findings, 1 error.\n`);
+    process.stdout.write(`Usage: detect.mjs [--json] [--immediate] [--no-config] [--format=json|junit|sarif|markdown] [path ...]\nExit 0 clean, 2 findings, 1 error.\n`);
     process.exit(0);
   }
-  const json = args.includes('--json');
+const json = args.includes('--json');
   const immediate = args.includes('--immediate');
   const noConfig = args.includes('--no-config');
+  const formatArg = args.find(a => a.startsWith('--format='));
+  const format = formatArg ? formatArg.split('=')[1] : (json ? 'json' : 'human');
   const targets = args.filter((a) => !a.startsWith('--'));
-  const root = findRoot();
+  // Determine scan root (where to find files) and project root (where to find package.json/APP.md)
+  let scanRoot = null;
+  let projectRoot = null;
+  if (targets.length > 0 && !immediate) {
+    const firstTarget = path.resolve(targets[0]);
+    try {
+      const stat = fs.statSync(firstTarget);
+      if (stat.isDirectory()) {
+        scanRoot = firstTarget;
+        projectRoot = findRoot(firstTarget);
+      } else {
+        scanRoot = path.dirname(firstTarget);
+        projectRoot = findRoot(scanRoot);
+      }
+    } catch {
+      scanRoot = null;
+      projectRoot = null;
+    }
+  }
+  if (!scanRoot) scanRoot = process.cwd();
+  if (!projectRoot) projectRoot = findRoot();
+  const root = scanRoot;
+  const ctx = inferProject(projectRoot);
+  
   const config = noConfig
     ? { hook: { enabled: false }, detector: { ignoreRules: [], ignoreFiles: [] } }
-    : loadConfig(root);
-  const ctx = inferProject(root);
+    : loadConfig(projectRoot);
   const files = loadTargets(root, targets);
-  const findings = detectFiles(files, { config, ctx, immediate });
-  if (json) {
-    process.stdout.write(JSON.stringify({ ok: findings.length === 0, findings, counts: counts(findings) }, null, 2) + '\n');
-  } else {
-    printHuman(findings);
+  
+  if (!files.length) {
+    // Native projects (SwiftUI, WinUI, GTK) may have no web UI files - that's OK
+    if (ctx.desktop && (ctx.shell === 'swiftui' || ctx.shell === 'winui' || ctx.shell === 'gtk' || ctx.shell === 'native')) {
+      if (format === 'json') {
+        process.stdout.write(JSON.stringify({ ok: true, findings: [], counts: { error: 0, warning: 0, advisory: 0 } }, null, 2) + '\n');
+      } else {
+        process.stdout.write(colorize('perfectable: clean (native project, no web UI files)\n', GREEN));
+      }
+      process.exit(0);
+    }
+    process.stderr.write(colorize('Error: ', RED) + 'No UI files found to scan. Check path or ensure files have supported extensions (.tsx, .jsx, .ts, .js, .css, .html, .vue, .svelte, .json, .toml)\n');
+    if (!ctx.appPath) {
+      process.stderr.write(colorize('Hint: ', YELLOW) + 'No APP.md found. Run `$perfectable init` to capture product truth first.\n');
+    }
+    process.exit(1);
   }
+  
+  const findings = await detectFiles(files, { config, ctx, immediate });
+  
+  let output = '';
+  if (format === 'json') {
+    output = JSON.stringify({ ok: findings.length === 0, findings, counts: counts(findings) }, null, 2);
+  } else if (format === 'junit') {
+    output = generateJUnit(findings);
+  } else if (format === 'sarif') {
+    output = generateSARIF(findings, projectRoot);
+  } else if (format === 'markdown') {
+    output = generateMarkdown(findings);
+  } else {
+    output = printHuman(findings);
+  }
+  process.stdout.write(output + '\n');
   process.exit(findings.length ? 2 : 0);
+}
+
+function generateJUnit(findings) {
+  const testsuites = findings.reduce((acc, f) => {
+    const suiteName = f.file.replace(/\//g, '.').replace(/\.[^.]+$/, '');
+    if (!acc[suiteName]) acc[suiteName] = [];
+    acc[suiteName].push(f);
+    return acc;
+  }, {});
+  
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<testsuites>';
+  for (const [suiteName, suiteFindings] of Object.entries(testsuites)) {
+    xml += `<testsuite name="${escapeXml(suiteName)}" tests="${suiteFindings.length}" failures="${suiteFindings.filter(f => f.severity === 'error').length}" errors="0" skipped="0">`;
+    for (const f of suiteFindings) {
+      xml += `<testcase name="${escapeXml(f.id)}" classname="${escapeXml(f.file)}" line="${f.line}">`;
+      if (f.severity === 'error' || f.severity === 'warning') {
+        xml += `<failure message="${escapeXml(f.message)}"><![CDATA[${escapeXml(f.snippet)}]]></failure>`;
+      }
+      xml += '</testcase>';
+    }
+    xml += '</testsuite>';
+  }
+  xml += '</testsuites>';
+  return xml;
+}
+
+function generateSARIF(findings, root) {
+  const results = findings.map(f => ({
+    ruleId: f.id,
+    level: f.severity === 'error' ? 'error' : f.severity === 'warning' ? 'warning' : 'note',
+    message: { text: f.message },
+    locations: [{
+      physicalLocation: {
+        artifactLocation: { uri: f.file },
+        region: { startLine: f.line, snippet: { text: f.snippet } }
+      }
+    }]
+  }));
+  return JSON.stringify({
+    version: '2.1.0',
+    $schema: 'https://schemastore.org/schemas/json/sarif-2.1.0.json',
+    runs: [{ tool: { driver: { name: 'perfectable-detector', rules: [] } }, results }]
+  }, null, 2);
+}
+
+function generateMarkdown(findings) {
+  if (!findings.length) return '✅ No issues found';
+  let md = '# Workbench Detector Findings\n\n';
+  md += `| File | Line | Severity | Rule | Message |\n`;
+  md += `|------|------|----------|------|---------|\n`;
+  for (const f of findings) {
+    md += `| ${f.file} | ${f.line} | ${f.severity} | ${f.id} | ${f.message.replace(/\|/g, '\\|')} |\n`;
+  }
+  return md;
+}
+
+function escapeXml(str) {
+  return String(str)
+    .replace(/&/g, '&')
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"')
+    .replace(/'/g, '&apos;');
 }
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));

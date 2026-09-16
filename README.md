@@ -18,7 +18,7 @@ Then, in the harness:
 
 ## Why this exists
 
-LLMs grade their own UI generously. A prompt that says “make it feel native” does not stick. Web design skills encode the **wrong** floor for this domain (touch targets, marketing CTAs, fluid type). Desktop and IDE quality *is* mechanical enough to scan.
+LLMs grade their own UI generously. A prompt that says "make it feel native" does not stick. Web design skills encode the **wrong** floor for this domain (touch targets, marketing CTAs, fluid type). Desktop and IDE quality *is* mechanical enough to scan.
 
 Perfectable puts a loop around the agent:
 
@@ -26,12 +26,12 @@ Perfectable puts a loop around the agent:
 2. **Craft floor** — density, keyboard, native menus, dirty documents. Judgment the scanner cannot catch.
 3. **Deterministic detector** — regex/AST rules for Electron isolation, missing drag regions, web file pickers, unvirtualized trees, VS Code clones, Inter + violet-on-black, and more.
 4. **Dual-agent critique** — UX review isolated from detector evidence, then synthesized.
-5. **Scored audit** — a11y, performance, theming, platform HIG, workspace integrity, shell security.
-6. **Edit hook** — findings come back into the agent after UI writes, instead of an open-ended “polish until good” loop.
+5. **Scored audit** — a11y, performance, theming, platform HIG, workbench integrity, shell security.
+6. **Edit hook** — findings come back into the agent after UI writes, instead of an open-ended "polish until good" loop.
 
 Use it when you are **generating or reviewing** an IDE, editor, or desktop app with an LLM and you want the result to feel like a tool, not a landing page.
 
-Do **not** use it for websites, marketing pages, or mobile-only apps. That is Impeccable’s job.
+Do **not** use it for websites, marketing pages, or mobile-only apps. That is Impeccable's job.
 
 ## What it catches
 
@@ -42,7 +42,7 @@ Typical LLM desktop slop:
 | Hamburger menu, web `<input type="file">` | Native menu bar and OS file dialogs |
 | Fake traffic lights / no titlebar drag | System window controls, `-webkit-app-region: drag` |
 | Hover-only tab close and toolbar icons | Keyboard + persistent affordances |
-| 44px “accessible” tree rows | 22–28px professional density with hit padding |
+| 44px "accessible" tree rows | 22–28px professional density with hit padding |
 | `nodeIntegration: true` | Isolated renderer + preload |
 | Unvirtualized `files.map` in the sidebar | Windowed lists that survive 10k files |
 | Inter / Geist / violet-on-near-black VS Code skin | A pinned chrome system in `CHROME.md` |
@@ -126,10 +126,10 @@ Layout:
 
 ```
 skills/perfectable/     the Agent Skill (SKILL.md, playbooks, detector)
-bin/perfectable.mjs     installer + CLI
-plugin.json           Grok plugin manifest
-.claude-plugin/       Claude Code plugin + marketplace
-.grok-plugin/         Grok marketplace index
+bin/perfectable.mjs      installer + CLI
+plugin.json            Grok plugin manifest
+.claude-plugin/        Claude Code plugin + marketplace
+.grok-plugin/          Grok marketplace index
 ```
 
 ## License

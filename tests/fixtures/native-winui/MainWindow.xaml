@@ -1,0 +1,85 @@
+<Window
+    x:Class="WinUIApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="WinUI App"
+    MinWidth="800"
+    MinHeight="600">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Native Menu Bar -->
+        <MenuBar Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+            <MenuBarItem Title="File">
+                <MenuFlyoutItem Text="New" Icon="Document" KeyboardAcceleratorText="Ctrl+N" Click="New_Click"/>
+                <MenuFlyoutItem Text="Open..." Icon="OpenFile" KeyboardAcceleratorText="Ctrl+O" Click="Open_Click"/>
+                <MenuFlyoutItem Text="Save" Icon="Save" KeyboardAcceleratorText="Ctrl+S" Click="Save_Click"/>
+                <MenuFlyoutItem Text="Save As..." KeyboardAcceleratorText="Ctrl+Shift+S" Click="SaveAs_Click"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Exit" KeyboardAcceleratorText="Alt+F4" Click="Exit_Click"/>
+            </MenuBarItem>
+            <MenuBarItem Title="Edit">
+                <MenuFlyoutItem Text="Undo" KeyboardAcceleratorText="Ctrl+Z" Click="Undo_Click"/>
+                <MenuFlyoutItem Text="Redo" KeyboardAcceleratorText="Ctrl+Y" Click="Redo_Click"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Cut" KeyboardAcceleratorText="Ctrl+X" Click="Cut_Click"/>
+                <MenuFlyoutItem Text="Copy" KeyboardAcceleratorText="Ctrl+C" Click="Copy_Click"/>
+                <MenuFlyoutItem Text="Paste" KeyboardAcceleratorText="Ctrl+V" Click="Paste_Click"/>
+            </MenuBarItem>
+            <MenuBarItem Title="View">
+                <MenuFlyoutItem Text="Zoom In" KeyboardAcceleratorText="Ctrl+=" Click="ZoomIn_Click"/>
+                <MenuFlyoutItem Text="Zoom Out" KeyboardAcceleratorText="Ctrl+-" Click="ZoomOut_Click"/>
+                <MenuFlyoutItem Text="Reset Zoom" KeyboardAcceleratorText="Ctrl+0" Click="ResetZoom_Click"/>
+            </MenuBarItem>
+            <MenuBarItem Title="Help">
+                <MenuFlyoutItem Text="About" Click="About_Click"/>
+            </MenuBarItem>
+        </MenuBar>
+
+        <!-- Editor Area -->
+        <Grid Grid.Row="1" Margin="12">
+            <TextBox
+                x:Name="Editor"
+                AcceptsReturn="True"
+                AcceptsTab="True"
+                TextWrapping="NoWrap"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                FontFamily="Consolas, 'Cascadia Code', monospace"
+                FontSize="14"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                PlaceholderText="Start typing..."
+                ContextFlyout="{StaticResource EditorContextFlyout}"/>
+        </Grid>
+
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2" Background="{ThemeResource SystemControlBackgroundAltHighBrush}" Height="24">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusFile" Text="Untitled" FontSize="11"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock x:Name="StatusEncoding" Text="UTF-8" FontSize="11" Margin="12,0,0,0"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock x:Name="StatusPosition" Text="Ln 1, Col 1" FontSize="11"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+
+    <Window.Resources>
+        <MenuFlyout x:Key="EditorContextFlyout">
+            <MenuFlyoutItem Text="Cut" KeyboardAcceleratorText="Ctrl+X" Click="Cut_Click"/>
+            <MenuFlyoutItem Text="Copy" KeyboardAcceleratorText="Ctrl+C" Click="Copy_Click"/>
+            <MenuFlyoutItem Text="Paste" KeyboardAcceleratorText="Ctrl+V" Click="Paste_Click"/>
+        </MenuFlyout>
+    </Window.Resources>
+</Window>

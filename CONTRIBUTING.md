@@ -19,7 +19,7 @@ Node 18+.
 | Detector rules | `skills/perfectable/scripts/detect.mjs` |
 | Craft floor / bans | `skills/perfectable/references/craft-floor.md` |
 | Critique / audit playbooks | `skills/perfectable/references/critique.md`, `audit.md` |
-| macOS / Windows / Linux HIG | `references/macos.md`, `windows.md`, `linux.md` |
+| macOS / Windows / Linux HIG | `skills/perfectable/platforms/macos/macos.md`, `platforms/windows/windows.md`, `platforms/linux/linux.md` |
 | Installer / harnesses | `src/providers.mjs`, `src/install.mjs` |
 | Skill routing | `skills/perfectable/SKILL.md` |
 

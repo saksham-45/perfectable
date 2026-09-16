@@ -9,9 +9,9 @@ function hookFile(root) {
   return path.join(root, '.grok', 'hooks', 'perfectable.json');
 }
 
-function writeHookManifest(root) {
+function writeHookManifest(root, dryRun = false) {
   const dir = path.dirname(hookFile(root));
-  fs.mkdirSync(dir, { recursive: true });
+  if (!dryRun) fs.mkdirSync(dir, { recursive: true });
   const payload = {
     hooks: {
       PostToolUse: [
@@ -31,12 +31,18 @@ function writeHookManifest(root) {
       ],
     },
   };
-  fs.writeFileSync(hookFile(root), JSON.stringify(payload, null, 2) + '\n');
+  const output = JSON.stringify(payload, null, 2) + '\n';
+  if (dryRun) {
+    process.stdout.write(`[DRY RUN] Would write to ${hookFile(root)}:\n${output}`);
+  } else {
+    fs.writeFileSync(hookFile(root), output);
+  }
 }
 
 const root = findRoot();
 const [action, ...rest] = process.argv.slice(2);
 const cmd = action || 'status';
+const dryRun = rest.includes('--dry-run');
 const config = loadConfig(root);
 
 if (cmd === 'status') {
@@ -52,41 +58,49 @@ if (cmd === 'status') {
 } else if (cmd === 'on') {
   config.hook.enabled = true;
   saveConfig(root, config);
-  writeHookManifest(root);
-  process.stdout.write(`Enabled. Wrote ${hookFile(root)}\nProject hooks need /hooks-trust in this folder before they run.\n`);
+  writeHookManifest(root, dryRun);
+  if (dryRun) {
+    process.stdout.write('[DRY RUN] Hook manifest not written. Run without --dry-run to apply.\n');
+  } else {
+    process.stdout.write(`Enabled. Wrote ${hookFile(root)}\nProject hooks need /hooks-trust in this folder before they run.\n`);
+  }
 } else if (cmd === 'off') {
   config.hook.enabled = false;
   saveConfig(root, config);
-  process.stdout.write('Disabled. New edits will not trigger the Perfectable hook until $perfectable hooks on.\n');
+  if (!dryRun) process.stdout.write('Disabled. New edits will not trigger the perfectable hook until $perfectable hooks on.\n');
 } else if (cmd === 'ignore-rule') {
   const id = rest[0];
   if (!id) {
-    process.stderr.write('Usage: hook-admin.mjs ignore-rule <id>\n');
+    process.stderr.write('Usage: hook-admin.mjs ignore-rule <id> [--dry-run]\n');
     process.exit(1);
   }
   const rules = new Set(config.detector.ignoreRules || []);
   rules.add(id);
   config.detector.ignoreRules = [...rules];
   saveConfig(root, config);
-  process.stdout.write(`Ignored rule ${id}\n`);
+  process.stdout.write(`Ignored rule ${id}${dryRun ? ' (dry-run)' : ''}\n`);
 } else if (cmd === 'ignore-file') {
   const glob = rest[0];
   if (!glob) {
-    process.stderr.write('Usage: hook-admin.mjs ignore-file <glob>\n');
+    process.stderr.write('Usage: hook-admin.mjs ignore-file <glob> [--dry-run]\n');
     process.exit(1);
   }
   const files = new Set(config.detector.ignoreFiles || []);
   files.add(glob);
   config.detector.ignoreFiles = [...files];
   saveConfig(root, config);
-  process.stdout.write(`Ignored file ${glob}\n`);
+  process.stdout.write(`Ignored file ${glob}${dryRun ? ' (dry-run)' : ''}\n`);
 } else if (cmd === 'reset') {
   const cfg = configPath(root);
   const hook = hookFile(root);
-  if (fs.existsSync(cfg)) fs.unlinkSync(cfg);
-  if (fs.existsSync(hook)) fs.unlinkSync(hook);
-  process.stdout.write('Reset Perfectable config and project hook.\n');
+  if (dryRun) {
+    process.stdout.write(`[DRY RUN] Would delete: ${cfg}, ${hook}\n`);
+  } else {
+    if (fs.existsSync(cfg)) fs.unlinkSync(cfg);
+    if (fs.existsSync(hook)) fs.unlinkSync(hook);
+    process.stdout.write('Reset perfectable config and project hook.\n');
+  }
 } else {
-  process.stderr.write('Usage: hook-admin.mjs <on|off|status|ignore-rule|ignore-file|reset>\n');
+  process.stderr.write('Usage: hook-admin.mjs <on|off|status|ignore-rule|ignore-file|reset> [--dry-run]\n');
   process.exit(1);
 }

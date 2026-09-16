@@ -13,6 +13,15 @@ Use the APP.md path `context.mjs` printed. Update it; do not create a second aut
 
 Scan enough that the user does not repeat known facts: README, package.json / Cargo.toml / `*.xcodeproj`, `src-tauri/`, Electron main process, window options, existing menus, about/license, accessibility notes.
 
+**Pre-fill from package.json** (auto-detected, confirm with user):
+- `dependencies.electron` → Shell: `electron`, Platform: `macos` (if macOS) / `windows` / `linux`
+- `dependencies."@tauri-apps/api"` → Shell: `tauri`
+- `dependencies."@tauri-apps/cli"` → Shell: `tauri`
+- `scripts.tauri` → Shell: `tauri`
+- `build.appId` (Electron) → Product identifier
+- `productName` → App name
+- `description` → Product purpose hint
+
 Treat repo evidence as hypothesis, not approval. Form a platform hypothesis: `macos`, `windows`, `linux`, or `adaptive`. An Electron/Tauri wrapper is still desktop; its chrome must follow the host OS. Mobile web stays out of this skill.
 
 ## Step 3: Interview
@@ -66,6 +75,16 @@ keyboard-first
 ## Operating Context
 
 [Files, projects, OS integration, rituals that are factual parts of use.]
+
+## Personas
+
+[Optional: 1–2 project-specific personas if audience differs from built-in (Alex, Jordan, Sam, Riley, Morgan, Devin). Format:
+- name: "Persona Name"
+  tests: [specific test scenarios]
+  red_flags: [specific failure modes]
+Only include if built-in personas don't cover your audience.]
+
+## Capabilities and Constraints
 
 ## Capabilities and Constraints
 

@@ -1,0 +1,36 @@
+name: 'Perfectable Quality Check'
+description: 'Run Perfectable detector on your desktop/IDE UI code'
+author: 'Perfectable Team'
+branding:
+  icon: 'check-circle'
+  color: 'blue'
+inputs:
+  path:
+    description: 'Path to scan (relative to repository root)'
+    required: false
+    default: 'src/'
+  format:
+    description: 'Output format (json|sarif|junit|markdown)'
+    required: false
+    default: 'sarif'
+  fail-on-findings:
+    description: 'Fail the action if findings are detected'
+    required: false
+    default: 'true'
+  config-file:
+    description: 'Path to .perfectable/config.json (optional)'
+    required: false
+  install-version:
+    description: 'Perfectable skill version to install'
+    required: false
+    default: 'latest'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.path }}
+    - --format=${{ inputs.format }}
+    - ${{ inputs.fail-on-findings && '--fail-on-findings' || '' }}
+branding:
+  icon: 'check-circle'
+  color: 'blue'

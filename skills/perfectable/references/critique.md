@@ -99,7 +99,7 @@ Be specific. Name the control. Do not soften. Prioritize; everything cannot be P
 Write the report in chat first. Then persist (skip if slug was null):
 
 ```bash
-PERFECTABLE_CRITIQUE_META='{"target":"<phrasing>","total_score":<n>,"max_score":<n>,"na_heuristics":"<nums or empty>","p0_count":<n>,"p1_count":<n>}' \
+WORKBENCH_CRITIQUE_META='{"target":"<phrasing>","total_score":<n>,"max_score":<n>,"na_heuristics":"<nums or empty>","p0_count":<n>,"p1_count":<n>}' \
   node <skill-base-dir>/scripts/critique-storage.mjs write "<resolved target>" <body-file>
 ```
 

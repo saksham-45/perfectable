@@ -1,6 +1,10 @@
 # Shape
 
-Discover what the app should be and how it should work. Return a confirmed brief. Do not write code. Do not pick a palette.
+Discover what the workbench should be and how it should work. Return a confirmed brief. Do not write code. Do not pick a palette.
+
+## Flags
+
+- `--interactive` — Guided questioning mode. Prompts for each discovery question and waits for answer before proceeding. Use when the user wants to be walked through the process.
 
 ## Phase 1: Discovery
 
@@ -18,7 +22,7 @@ Round 2 only for material gaps:
 - States: first-run, empty, dirty, crash restore, LSP down, offline, permission denied.
 - What must stay OS-native? What chrome is ours? What must remain untouched?
 
-Never ask for CSS values or “VS Code / Zed / Xcode” as an aesthetic lane. Those names are IA references only when the user offers them.
+Never ask for CSS values or "VS Code / Zed / Xcode" as an aesthetic lane. Those names are IA references only when the user offers them.
 
 ## Phase 2: Workspace thesis
 

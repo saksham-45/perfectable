@@ -22,7 +22,7 @@ Then:
 2. **`$perfectable document`** — CHROME.md from incumbent chrome
 3. **`$perfectable shape [feature]`** — workspace IA, no code
 4. **`$perfectable critique [target]`** — UX review, heuristic scores, personas
-5. **`$perfectable audit [target]`** — a11y, perf, platform, workspace integrity, shell security
+5. **`$perfectable audit [target]`** — a11y, perf, platform, workbench integrity, shell security
 6. **`$perfectable polish [target]`** — one batched finish pass
 7. **`$perfectable harden [target]`** — dirty/crash/a11y/i18n/permissions
 8. **`$perfectable adapt [target]`** — sizes, appearance, compact chrome

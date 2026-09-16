@@ -2,6 +2,8 @@
 
 Load before scoring platform conformance on `windows` or `adaptive`.
 
+**Last verified:** Windows 11 24H2 / WinUI 3 1.5. Review annually.
+
 ## Windowing
 
 - Caption buttons (min / max / close) on the **right**, system size and hover. Snap-layout flyout on maximize hover (Win11). Do not draw macOS traffic lights on Windows.

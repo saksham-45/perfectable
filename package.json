@@ -1,14 +1,11 @@
 {
   "name": "perfectable",
   "version": "1.0.0",
-  "description": "Quality gate for AI-built IDEs and desktop apps. Agent skill + detector for Claude Code, Cursor, Codex, and Grok.",
-  "author": {
-    "name": "saksham-45",
-    "url": "https://github.com/saksham-45"
-  },
+  "description": "Quality gate for AI-built IDEs and desktop apps. Deterministic detector, dual-agent critique, scored audit, LSP integration.",
   "type": "module",
   "bin": {
-    "perfectable": "./bin/perfectable.mjs"
+    "perfectable": "./bin/perfectable.mjs",
+    "workbench": "./bin/perfectable.mjs"
   },
   "files": [
     "bin",
@@ -49,5 +46,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/saksham-45/perfectable.git"
+  },
+  "author": {
+    "name": "saksham-45",
+    "url": "https://github.com/saksham-45"
   }
 }

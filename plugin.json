@@ -7,5 +7,12 @@
     "url": "https://github.com/saksham-45"
   },
   "homepage": "https://github.com/saksham-45/perfectable",
-  "keywords": ["ide", "desktop", "electron", "tauri", "audit", "design"]
+  "keywords": [
+    "ide",
+    "desktop",
+    "electron",
+    "tauri",
+    "audit",
+    "design"
+  ]
 }

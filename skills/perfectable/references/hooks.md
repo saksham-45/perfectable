@@ -1,6 +1,6 @@
 # Hooks
 
-Manage the Perfectable detector hook for the current project. The hook runs after UI file edits and feeds findings into Grok as `additionalContext`. It does not rewrite the tool output. It does not auto-ignore findings.
+Manage the perfectable detector hook for the current project. The hook runs after UI file edits and feeds findings into Grok as `additionalContext`. It does not rewrite the tool output. It does not auto-ignore findings.
 
 Per-edit (`PostToolUse` on `search_replace` / `write`): `--immediate` rules only (mechanical: isolation, drag region, `outline: none`, unvirtualized tree, web file picker).
 
@@ -19,13 +19,16 @@ First argument is the action. Default `status`.
 | `ignore-file <glob>` | Suppress every rule for matching files |
 | `reset` | Delete `.perfectable/config.json` and the project hook file |
 
+**Flags:**
+- `--dry-run` — Preview changes without writing. Works with `on`, `off`, `ignore-rule`, `ignore-file`, `reset`.
+
 Always go through the admin script (or `npx perfectable hooks <action>`):
 
 ```bash
-node <skill-base-dir>/scripts/hook-admin.mjs <action> [args...]
+node <skill-base-dir>/scripts/hook-admin.mjs <action> [args...] [--dry-run]
 ```
 
-Relay stdout verbatim. On `on`: “The detector will fire after the next UI edit.” On `off`: “New edits will not trigger the Perfectable hook until `$perfectable hooks on`.”
+Relay stdout verbatim. On `on`: "The detector will fire after the next UI edit." On `off`: "New edits will not trigger the perfectable hook until `$perfectable hooks on`."
 
 ## Triage
 

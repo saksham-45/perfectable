@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sloppy Electron App</title>
+  <link rel="stylesheet" href="activity-status-bar.css">
+</head>
+<body>
+  <div class="window">
+    <header class="titlebar">
+      <div class="titlebar-drag-region">
+        <span class="titlebar-title">Sloppy App</span>
+      </div>
+      <div class="titlebar-controls">
+        <div class="traffic-lights">
+          <div class="traffic-light red"></div>
+          <div class="traffic-light yellow"></div>
+          <div class="traffic-light green"></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar">
+        <div class="sidebar-header">Explorer</div>
+        <div class="activity-bar">
+          <button class="activity-btn" aria-label="Explorer">📁</button>
+          <button class="activity-btn" aria-label="Search">🔍</button>
+          <button class="activity-btn" aria-label="Git">📦</button>
+          <button class="activity-btn" aria-label="Debug">▶️</button>
+          <button class="activity-btn" aria-label="Extensions">🧩</button>
+        </div>
+        <div class="file-tree">
+          <div class="file-tree-item" style="min-height: 44px;">📁 src</div>
+          <div class="file-tree-item" style="min-height: 44px;">📄 main.js</div>
+        </div>
+      </aside>
+
+      <main class="editor-area">
+        <div class="tab-bar">
+          <button class="tab">main.js</button>
+          <button class="tab">renderer.js</button>
+          <button class="cta-button rounded-full px-6 py-3">Get Started</button>
+        </div>
+        <div class="editor-panel">
+          <textarea class="editor" value="{code}"></textarea>
+        </div>
+      </main>
+
+      <aside class="panel">
+        <div class="panel-header">Terminal</div>
+        <div class="panel-content"></div>
+      </aside>
+    </div>
+
+    <footer class="statusbar">
+      <div class="statusbar-left">
+        <span class="status-item">main</span>
+      </div>
+      <div class="statusbar-center">
+        <span class="status-item">Ln 1, Col 1</span>
+      </div>
+      <div class="statusbar-right">
+        <span class="status-item ai-status">
+          <span class="pulse-dot"></span>
+          AI Ready
+        </span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <div class="modal-content">
+      <h2 id="settings-title">Settings</h2>
+      <div class="settings-tabs">
+        <button class="settings-tab">Editor</button>
+        <button class="settings-tab">Terminal</button>
+        <button class="settings-tab">AI</button>
+      </div>
+      <div class="settings-content">
+        <label>
+          Font Family:
+          <select>
+            <option>Inter</option>
+            <option>Geist</option>
+            <option>Plus Jakarta Sans</option>
+          </select>
+        </label>
+        <label>
+          Theme: <input type="color" value="#0a0a0a">
+        </label>
+        <button class="save-btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="hiddenFileInput" style="display: none;">
+
+  <script src="renderer.js"></script>
+</body>
+</html>

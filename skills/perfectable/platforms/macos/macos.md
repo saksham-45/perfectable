@@ -2,11 +2,13 @@
 
 Load before scoring platform conformance on `macos` or `adaptive`. These are slop tests. Fail the audit when chrome violates them without a recorded APP.md exception.
 
+**Last verified:** macOS 15 (Sequoia) / HIG 2024. Review annually.
+
 ## Windowing
 
 - Traffic lights stay in the system position (titlebar left). Custom titlebars use `hiddenInset` and keep the 12pt buttons in the system inset. Do not draw fake dots.
 - Custom titlebar: `-webkit-app-region: drag` on the bar, `no-drag` on every control. Double-click zoom. Document proxy icon when there is a file URL.
-- `isDocumentEdited` / dirty indicator in the close button and Window menu. Untitled documents named “Untitled”.
+- `isDocumentEdited` / dirty indicator in the close button and Window menu. Untitled documents named "Untitled".
 - Menu bar is native (`Menu.setApplicationMenu` / SwiftUI commands). App / File / Edit / View / Window / Help at minimum. Preferences is **App menu → Settings…** (`Cmd+,`), never a hamburger.
 - System file dialogs (`NSOpenPanel` / Electron `dialog`). No `<input type="file">`.
 - Sheets attach to a window; app-modal dialogs are rare. Preferences is a window, not a sheet stacked on the editor.

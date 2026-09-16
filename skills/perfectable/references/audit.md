@@ -32,7 +32,7 @@ Score against the loaded platform reference, including its slop tests: menus, wi
 
 0 = web port. 4 = a fluent OS user trusts every surface.
 
-### 5. Workspace integrity
+### 5. Workbench integrity
 
 Dirty/untitled in the title and dock; layout persistence; command registry; keybinding collisions; crash restore; panel/split state.
 
@@ -60,7 +60,7 @@ node <skill-base-dir>/scripts/detect.mjs --json [target]
 | 2 | Performance | | |
 | 3 | Theming | | |
 | 4 | Platform Conformance | | |
-| 5 | Workspace integrity | | |
+| 5 | Workbench Integrity | | |
 | 6 | Shell Security | | |
 | **Total** | | **??/24** | **[band]** |
 

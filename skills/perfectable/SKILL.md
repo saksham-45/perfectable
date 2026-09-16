@@ -32,6 +32,8 @@ Operate-mode craft for IDEs, editors, and desktop apps. The editor is the produc
 
 3. After direction is settled, load [references/craft-floor.md](references/craft-floor.md) immediately before editing UI. Skip for planning-only work.
 
+4. **For LLM agents:** Load [references/llm-guide.md](references/llm-guide.md) at session start. It contains the system prompt snippet, decision tree, few-shot examples, and common failure modes.
+
 ## How to work
 
 - **APP.md wins.** Product, platform, windowing, and input contract beat model taste.
@@ -72,7 +74,7 @@ Exit 0 = clean, 2 = findings, 1 = usage/error. `--immediate` is the per-edit tie
 
 ## Platform
 
-`context.mjs` names one of [references/macos.md](references/macos.md), [references/windows.md](references/windows.md), [references/linux.md](references/linux.md). Load it before scoring platform conformance. `adaptive` loads every shipped desktop OS.
+`context.mjs` names one of [platforms/macos/macos.md](platforms/macos/macos.md), [platforms/windows/windows.md](platforms/windows/windows.md), [platforms/linux/linux.md](platforms/linux/linux.md). Load it before scoring platform conformance. `adaptive` loads every shipped desktop OS.
 
 ## Hooks
 

@@ -1,0 +1,96 @@
+{
+  "name": "perfectable-lsp",
+  "displayName": "Perfectable LSP",
+  "description": "Real-time desktop/IDE UI quality diagnostics for Electron, Tauri, and native desktop apps",
+  "version": "1.0.0",
+  "publisher": "perfectable",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "main": "./client/out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Perfectable LSP",
+      "properties": {
+        "perfectable.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Perfectable LSP diagnostics"
+        },
+        "perfectable.immediateMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run immediate rules on every keystroke"
+        },
+        "perfectable.projectRoot": {
+          "type": "string",
+          "default": "${workspaceFolder}",
+          "description": "Project root directory (auto-detected if not set)"
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "typescript",
+        "extensions": [".ts", ".tsx"],
+        "aliases": ["TypeScript", "ts"]
+      },
+      {
+        "id": "javascript",
+        "extensions": [".js", ".jsx", ".mjs", ".cjs"],
+        "aliases": ["JavaScript", "js"]
+      },
+      {
+        "id": "html",
+        "extensions": [".html", ".htm"],
+        "aliases": ["HTML"]
+      },
+      {
+        "id": "css",
+        "extensions": [".css", ".scss", ".sass", ".less"],
+        "aliases": ["CSS", "SCSS", "Sass", "Less"]
+      },
+      {
+        "id": "json",
+        "extensions": [".json", ".jsonc"],
+        "aliases": ["JSON"]
+      },
+      {
+        "id": "toml",
+        "extensions": [".toml"],
+        "aliases": ["TOML"]
+      },
+      {
+        "id": "vue",
+        "extensions": [".vue"],
+        "aliases": ["Vue"]
+      },
+      {
+        "id": "svelte",
+        "extensions": [".svelte"],
+        "aliases": ["Svelte"]
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./client",
+    "watch": "tsc -w -p ./client",
+    "pretest": "npm run compile",
+    "package": "vsce package",
+    "install-server": "node ./install-server.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0",
+    "vscode-languageclient": "^8.0.0",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.0.0"
+  }
+}

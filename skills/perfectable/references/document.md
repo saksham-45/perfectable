@@ -15,10 +15,19 @@ Do not silently overwrite an existing CHROME.md. Show it and ask: refresh, overw
 Search in order. Record name, value, and file. Do not invent tokens the project does not use.
 
 1. CSS custom properties for chrome / surface / editor / selection / find / error.
-2. Theme files (`theme.ts`, `tokens.ts`, Tailwind `theme.extend`).
-3. Titlebar, sidebar, activity bar, tab strip, status bar, command palette, tree, menu, settings window.
-4. Electron `BrowserWindow` / Tauri window config (titlebar style, frame, traffic-light position).
-5. Menu template, keybinding map, document dirty API.
+2. **Tailwind config** (`tailwind.config.js`, `tailwind.config.ts`) — extract `theme.extend.colors`, `theme.extend.spacing`, `theme.extend.fontFamily`, `theme.extend.fontSize`, `theme.extend.borderRadius`.
+3. **CSS variables** in `:root` / `:host` / `[data-theme]` — extract all `--color-*`, `--font-*`, `--density-*`, `--radius-*`, `--spacing-*`, `--shadow-*`, `--transition-*`.
+4. Theme files (`theme.ts`, `tokens.ts`, `design-tokens.json`).
+5. Titlebar, sidebar, activity bar, tab strip, status bar, command palette, tree, menu, settings window.
+6. Electron `BrowserWindow` / Tauri window config (titlebar style, frame, traffic-light position).
+7. Menu template, keybinding map, document dirty API.
+
+### Auto-Detection Heuristics
+
+- **Tailwind**: If `tailwind.config.*` exists, parse `theme.extend` and map to semantic tokens (e.g., `colors.surface` → `--color-surface`).
+- **CSS Variables**: Scan all `.css`, `.scss`, `.sass`, `.less` files for `:root { --color-*: }` patterns.
+- **Design Tokens**: If `tokens.json` or `design-tokens.json` exists, use as source of truth.
+- **Component Libraries**: Detect Radix UI, shadcn/ui, Headless UI, Material UI — map their tokens to Workbench semantics.
 
 ## Write CHROME.md
 
