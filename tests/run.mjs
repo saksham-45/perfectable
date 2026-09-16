@@ -175,14 +175,28 @@ function fixture(name) {
   assert.equal(r.status, 0);
   const lines = r.stdout.trim().split('\n');
   const ctx = Object.fromEntries(lines.map(l => l.split('=')));
-  assert.equal(ctx.PLATFORM, 'macos');
+  const inferred = inferProject(f);
+  // No APP.md: platform follows the host OS (darwin→macos, win32→windows, else linux).
+  assert.equal(ctx.PLATFORM, inferred.platform);
   assert.equal(ctx.SHELL, 'electron');
   assert.equal(ctx.WINDOWING, 'workspace');
   assert.equal(ctx.INPUT, 'keyboard-first');
   assert.ok(ctx.APP.endsWith('APP.md') || ctx.APP === 'MISSING');
   assert.ok(ctx.CHROME.endsWith('CHROME.md') || ctx.CHROME === 'MISSING');
-  assert.match(ctx.LOAD, /platforms\/macos\/macos\.md/);
+  assert.match(ctx.LOAD, new RegExp(`platforms/${inferred.platform}/${inferred.platform}\\.md`));
   assert.match(ctx.DETECTOR, /detect\.mjs/);
+}
+
+{
+  const dir = tmp();
+  fs.writeFileSync(path.join(dir, 'package.json'), JSON.stringify({ dependencies: { electron: '33' } }));
+  fs.writeFileSync(path.join(dir, 'APP.md'), `# App\n\n## Platform\n\nmacos\n\n## Shell\n\nelectron\n`);
+  const r = run(['context'], dir);
+  assert.equal(r.status, 0, r.stderr);
+  const ctx = Object.fromEntries(r.stdout.trim().split('\n').map((l) => l.split('=')));
+  assert.equal(ctx.PLATFORM, 'macos');
+  assert.equal(ctx.SHELL, 'electron');
+  assert.match(ctx.LOAD, /platforms\/macos\/macos\.md/);
 }
 
 {
