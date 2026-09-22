@@ -15,6 +15,18 @@ import {
   walkFiles,
 } from './lib.mjs';
 
+function finish(code) {
+  process.stdout.write('', () => process.exit(code));
+}
+
+function sameFile(a, b) {
+  try {
+    return fs.realpathSync(a) === fs.realpathSync(b);
+  } catch {
+    return path.resolve(a) === path.resolve(b);
+  }
+}
+
 const OVERUSED_FONTS = /\b(Inter|Geist(?:\s+Sans)?|Plus Jakarta Sans|Space Grotesk)\b/;
 const AI_PURPLE = /#(?:7c3aed|8b5cf6|a78bfa|6d28d9|8b5cf6|7c3aed)\b/i;
 const AI_NEAR_BLACK = /#(?:0a0a0a|09090b|0c0c0e|111111|0f0f10)\b/i;
@@ -257,7 +269,7 @@ export const RULES = [
     category: 'ide',
     severity: 'warning',
     name: 'Touch-sized rows in IDE chrome',
-    description: '44px rows belong on phones. Tree/tab/menu rows should be 22–28px with extra hit padding.',
+    description: '44px rows belong on phones. Tree, tab, and menu rows use the platform row metric plus hit padding.',
     test(file, content) {
       if (!TREE_FILE.test(file) && !/tab|menu|activity/i.test(file)) return [];
       const idx = content.search(/min-h-\[44px\]|minHeight\s*:\s*['"]?44|h-11\b|height:\s*44px/);
@@ -367,6 +379,90 @@ export const RULES = [
     test(file, content) {
       if (!/tauri\.conf/i.test(file)) return [];
       const idx = content.search(/unsafe-eval|connect-src[^"']*\*/);
+      if (idx >= 0) return [hit(this, file, content, idx)];
+      return [];
+    },
+  },
+  {
+    id: 'glass-on-content',
+    category: 'slop',
+    severity: 'warning',
+    immediate: true,
+    name: 'Glass on the content layer',
+    description: 'backdrop-filter on an editor, code surface, or data table. Blur belongs on the functional or transient layer, not on the work.',
+    test(file, content) {
+      const block = /([^{}@]+)\{([^{}]*)\}/g;
+      for (const m of content.matchAll(block)) {
+        if (/(?:^|[^a-z-])(?:editor|code-surface|data-table)(?:[^a-z-]|$)/i.test(m[1]) && /backdrop-filter\s*:/i.test(m[2])) {
+          return [hit(this, file, content, m.index)];
+        }
+      }
+      const inline = content.search(/class=["'][^"']*\b(?:editor|code-surface|data-table)\b[^"']*["'][^>]*style=["'][^"']*backdrop-filter\s*:/i);
+      if (inline >= 0) return [hit(this, file, content, inline)];
+      return [];
+    },
+  },
+  {
+    id: 'marketing-radius-on-row',
+    category: 'slop',
+    severity: 'warning',
+    immediate: true,
+    name: 'Marketing radius on a dense row',
+    description: 'A dense row (20–32px) with a radius of 12px or more. Dense controls stay slightly rounded. Capsules are for emphasis controls.',
+    test(file, content) {
+      const block = /([^{}@]+)\{([^{}]*)\}/g;
+      for (const m of content.matchAll(block)) {
+        const rowish = /(?:^|[^a-z-])(?:row|tab|sidebar-item|tree-item)(?:[^a-z-]|$)/i.test(m[1]);
+        const small = /height:\s*(?:2[0-9]|3[0-2])px/.test(m[2]);
+        const big = /border-radius:\s*(?:1[2-9]|[2-9]\d)px/.test(m[2]);
+        if (rowish && small && big) return [hit(this, file, content, m.index)];
+      }
+      return [];
+    },
+  },
+  {
+    id: 'ios-body-in-chrome',
+    category: 'slop',
+    severity: 'warning',
+    immediate: true,
+    name: 'Phone body size in desktop chrome',
+    description: '17px on titlebar, toolbar, tab, or status chrome. Desktop chrome uses the platform file\'s chrome size.',
+    test(file, content) {
+      const block = /([^{}@]+)\{([^{}]*)\}/g;
+      for (const m of content.matchAll(block)) {
+        if (/(?:titlebar|toolbar|statusbar|status-bar|tab-strip)/i.test(m[1]) && /font-size:\s*17px/.test(m[2])) {
+          return [hit(this, file, content, m.index)];
+        }
+      }
+      return [];
+    },
+  },
+  {
+    id: 'centered-hero-in-shell',
+    category: 'slop',
+    severity: 'warning',
+    immediate: true,
+    name: 'Centered marketing hero in the window',
+    description: 'A full-window center plus a heading and a pill button. Empty states sit in the sovereign pane and name the next action.',
+    test(file, content) {
+      if (/role\s*=\s*["']dialog["']/i.test(content)) return [];
+      const centered = /(?:align-items|place-items)\s*:\s*center[\s\S]{0,220}justify-content\s*:\s*center|justify-content\s*:\s*center[\s\S]{0,220}(?:align-items|place-items)\s*:\s*center/;
+      if (centered.test(content) && /<h1\b/i.test(content) && /rounded-full/.test(content)) {
+        const idx = content.search(/justify-content\s*:\s*center|place-items\s*:\s*center/);
+        return [hit(this, file, content, idx < 0 ? 0 : idx)];
+      }
+      return [];
+    },
+  },
+  {
+    id: 'equal-pane-grid',
+    category: 'layout',
+    severity: 'warning',
+    immediate: true,
+    name: 'Equal columns for unequal regions',
+    description: 'Three or more equal 1fr tracks in the shell. Give leftover space to the sovereign surface. Inline-ignore only when the composition truly wants equal tracks.',
+    test(file, content) {
+      const idx = content.search(/grid-template-columns\s*:\s*(?:repeat\(\s*(?:[3-9]|\d{2,})\s*,\s*1fr\s*\)|(?:1fr\s+){2,}1fr)/);
       if (idx >= 0) return [hit(this, file, content, idx)];
       return [];
     },
@@ -583,9 +679,10 @@ export async function detectCli(argv = process.argv.slice(2)) {
   const args = argv.filter((a) => a !== '--');
   if (args.includes('--help') || args.includes('-h')) {
     process.stdout.write(`Usage: detect.mjs [--json] [--immediate] [--no-config] [--format=json|junit|sarif|markdown] [path ...]\nExit 0 clean, 2 findings, 1 error.\n`);
-    process.exit(0);
+    finish(0);
+    return;
   }
-const json = args.includes('--json');
+  const json = args.includes('--json');
   const immediate = args.includes('--immediate');
   const noConfig = args.includes('--no-config');
   const formatArg = args.find(a => a.startsWith('--format='));
@@ -628,13 +725,15 @@ const json = args.includes('--json');
       } else {
         process.stdout.write(colorize('perfectable: clean (native project, no web UI files)\n', GREEN));
       }
-      process.exit(0);
+      finish(0);
+      return;
     }
     process.stderr.write(colorize('Error: ', RED) + 'No UI files found to scan. Check path or ensure files have supported extensions (.tsx, .jsx, .ts, .js, .css, .html, .vue, .svelte, .json, .toml)\n');
     if (!ctx.appPath) {
       process.stderr.write(colorize('Hint: ', YELLOW) + 'No APP.md found. Run `$perfectable init` to capture product truth first.\n');
     }
-    process.exit(1);
+    finish(1);
+    return;
   }
   
   const findings = await detectFiles(files, { config, ctx, immediate });
@@ -649,10 +748,10 @@ const json = args.includes('--json');
   } else if (format === 'markdown') {
     output = generateMarkdown(findings);
   } else {
-    output = printHuman(findings);
+    printHuman(findings);
+    output = '';
   }
-  process.stdout.write(output + '\n');
-  process.exit(findings.length ? 2 : 0);
+  process.stdout.write(output, () => finish(findings.length ? 2 : 0));
 }
 
 function generateJUnit(findings) {
@@ -700,7 +799,7 @@ function generateSARIF(findings, root) {
 
 function generateMarkdown(findings) {
   if (!findings.length) return '✅ No issues found';
-  let md = '# Workbench Detector Findings\n\n';
+  let md = '# Perfectable detector findings\n\n';
   md += `| File | Line | Severity | Rule | Message |\n`;
   md += `|------|------|----------|------|---------|\n`;
   for (const f of findings) {
@@ -718,7 +817,7 @@ function escapeXml(str) {
     .replace(/'/g, '&apos;');
 }
 
-const isMain = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+const isMain = Boolean(process.argv[1]) && sameFile(process.argv[1], fileURLToPath(import.meta.url));
 if (isMain) {
   await detectCli();
 }

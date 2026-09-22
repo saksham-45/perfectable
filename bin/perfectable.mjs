@@ -11,8 +11,8 @@ const VERSION = JSON.parse(fs.readFileSync(path.join(PKG_ROOT, 'package.json'), 
 const HELP = `
 perfectable ${VERSION}
 
-Audit skill for IDE and desktop-app UI. Installs into AI coding harnesses
-and exposes the same detector the skill uses.
+Layout and audit skill for IDE and desktop-app UI. Installs into AI coding
+harnesses and exposes the same detector the skill uses.
 
 Usage:
   perfectable install [options]

@@ -19,9 +19,7 @@ const adaptivePack = loadPlatformPack('adaptive');
 
 The adaptive pack covers:
 
-- Conditional platform detection and feature toggles
-- Shared density tokens across platforms
-- Platform-appropriate windowing abstractions
+- Host pixels at runtime. Row height, window controls, and materials come from the desktop the window is on
+- Shared names only: spacing roles, composition ids, token names, keyboard verbs
 - Keyboard shortcut normalization (Cmd ↔ Ctrl, etc.)
-- Appearance handling across all three platforms
 - Testing matrix for multi-platform CI

@@ -222,6 +222,19 @@ Use `|| true` in CI scripts to capture artifacts even on findings, then check ex
 - Use `--immediate` for fast per-edit checks in pre-commit
 - Full scan (`detect --json src/`) in CI takes ~2-5s for typical projects
 
+## Skill fixtures
+
+The skill's own layout fixtures live in `fixtures/` next to this reference's parent. They are not a product scan.
+
+```bash
+node scripts/detect.mjs --no-config fixtures/slop-editor.html
+node scripts/detect.mjs --no-config fixtures/editor-first.html
+node scripts/detect.mjs --no-config fixtures/three-pane.html
+node scripts/detect.mjs --no-config fixtures/settings.html
+```
+
+`slop-editor.html` and `slop-three-pane.html` and `slop-settings.html` exit 2. `editor-first.html`, `three-pane.html`, and `settings.html` exit 0. Run with `--no-config` so a project ignore list cannot hide a regression.
+
 ## Troubleshooting
 
 | Issue | Solution |

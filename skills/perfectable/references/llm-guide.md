@@ -1,30 +1,20 @@
-# LLM Guide — Using the Workbench Skill Effectively
+# LLM Guide — Using Perfectable
 
-This guide helps LLMs (Claude, Cursor, Codex, Grok, etc.) use the Workbench skill correctly. Load this when the skill is invoked.
+This guide helps models use the Perfectable skill. Load it when the skill is invoked.
 
 ## System Prompt Snippet
 
-When the Workbench skill is active, prepend this to your system prompt:
+When Perfectable is active, follow the skill's command routing. The pieces are:
 
-```
-You are an expert in desktop/IDE UI quality. You have access to the Workbench skill which provides:
-- Deterministic detector (`$perfectable detect`) for Electron/Tauri/security/platform/IDE anti-patterns
-- Dual-agent critique (`$perfectable critique`) with 14 heuristics and 6 personas
-- Technical audit (`$perfectable audit`) across a11y, perf, theming, platform conformance, workbench integrity, shell security
-- Chrome documentation (`$perfectable document`) to extract design tokens from existing UI
-- Product truth capture (`$perfectable init`) for platform/shell/windowing/input contracts
-- Workspace planning (`$perfectable shape`) before writing code
-- Refinement passes (`$perfectable polish`, `$perfectable harden`, `$perfectable adapt`)
+- `$perfectable layout` for regions, rhythm, spread, and optical alignment. Load it when the complaint is spacing, alignment, empty space, or hierarchy, before polish.
+- `$perfectable typeset` and `$perfectable materials` for type and layers.
+- Detector (`$perfectable detect`) for mechanical defects.
+- `$perfectable critique` for the 17 heuristics and 6 personas.
+- `$perfectable shape` before code when the composition is unknown. The brief includes a spatial contract.
+- `$perfectable init` and `$perfectable document` for APP.md and CHROME.md.
+- `$perfectable polish`, `$perfectable harden`, `$perfectable adapt` for the finish, the edge cases, and the window sizes.
 
-CRITICAL RULES:
-1. NEVER skip `$perfectable init` on a new desktop app — pinned APP.md beats model taste
-2. NEVER invent chrome without `$perfectable document` first — incumbent chrome is visual authority
-3. ALWAYS run `$perfectable detect` on touched UI files after edits (unless DETECTOR_HOOK=on)
-4. ALWAYS load craft-floor.md before editing UI
-5. For reviews: use `$perfectable critique` (design) + `$perfectable audit` (technical) — both required
-6. For shipping: `$perfectable harden` → `$perfectable adapt` → `$perfectable polish`
-7. Detector findings are defect evidence, not proof of quality — critique and craft floor still apply
-```
+Pinned APP.md beats taste. Incumbent chrome is visual authority. Load the craft floor before editing UI. A clean detector scan is not a quality certificate. Do not run every command on every task.
 
 ## Decision Tree — Which Command to Run
 
@@ -46,6 +36,15 @@ User request
     ├─ "Plan workspace layout" / "Design new feature UI"
     │   → $perfectable shape [feature]
     │
+    ├─ "Fix the spacing" / "spread this out" / "alignment" / "hierarchy" / "feels like a website"
+    │   → $perfectable layout [target]
+    │
+    ├─ "Typography" / "type is too big" / "line length"
+    │   → $perfectable typeset [target]
+    │
+    ├─ "Color" / "glass" / "too loud" / "too flat"
+    │   → $perfectable materials [target]
+    │
     ├─ "Polish/finish this UI"
     │   → $perfectable polish [target] (after critique/audit)
     │
@@ -64,16 +63,23 @@ User request
 
 ## Few-Shot Examples
 
-### Example 1: New Electron App
+### Example 1: New Electron app
 ```
 User: "Build me a code editor in Electron"
 
-Assistant: 
-1. Runs `$perfectable init` → captures: platform=macos, shell=electron, windowing=workspace, input=keyboard-first, users=developers
-2. Runs `$perfectable shape` → confirms editor-first thesis, plans topology
-3. Writes code following craft-floor.md and platform reference (macos.md)
-4. Runs `$perfectable detect` on each UI file written
-5. Runs `$perfectable audit` before shipping
+Assistant:
+1. `$perfectable init` → platform, shell, posture sovereign, composition editor-first
+2. `$perfectable shape` → spatial contract: buffer is sovereign, air inside the buffer, chrome uses the platform row metric, sidebar toggles closed
+3. Writes the window from that contract, the craft floor, and the platform file
+4. `$perfectable detect` on the UI files
+5. `$perfectable layout` if the first render is one padding everywhere
+```
+
+### Example 1b: Flat spacing
+```
+Before: a titlebar, sidebar, and editor share padding: 16px. Three columns are 1fr 1fr 1fr. The empty state is a centered card with a pill button.
+
+After (three-pane): sidebar and list use the platform row metric and the tight role inside a row. The group role separates list sections. The detail column caps prose on the type measure and lets the margin grow. The command band uses the control role between buttons. The empty state sits in the detail pane, left-aligned, and names the next action.
 ```
 
 ### Example 2: Fix Platform Issues
@@ -94,7 +100,7 @@ User: "Review my titlebar component"
 
 Assistant:
 1. Runs `$perfectable critique src/shell/Titlebar.tsx`
-2. Returns: dual-agent method, heuristic scores (14/56), persona red flags, 3-5 priority issues with P0-P3
+2. Returns: dual-agent method, heuristic scores (out of 68 when all 17 apply), persona red flags, 3-5 priority issues with P0-P3
 3. Recommends: `$perfectable adapt` for compact mode, `$perfectable polish` for focus rings
 ```
 
@@ -116,31 +122,28 @@ Assistant:
 | Invents chrome without `document` | No CHROME.md, creates new design system | Run `$perfectable document` first |
 | Runs only `detect`, claims "clean = good" | Clean scan but no critique | Run `$perfectable critique` + `$perfectable audit` |
 | Uses web patterns (44px, hover-only, CTAs) | Detector findings: touch-density, hover-only-affordance, web-cta-in-chrome | Load craft-floor.md, fix per detector |
+| One padding token everywhere | Squint test sees equal regions | `$perfectable layout` and the spatial contract |
 | Ignores platform conventions | Audit: platform conformance < 3 | Load platform reference (macos.md/windows.md/linux.md) |
-| Claims "done" after one pass | No polish/harden/adapt | Run full pipeline: critique → audit → harden → adapt → polish |
+| Claims "done" after one pass | A named gap is still open (spacing, type, platform, crash) | Run the command for that gap. Do not run every command |
 | Softens findings ("consider", "maybe") | Priority issues all P2/P3 | Be specific: name control, P0 blocks task, P1 before release |
 
 ## Command Pipeline — Standard Workflow
 
 ```
 NEW APP:
-  $perfectable init          → APP.md (pinned truth)
-  $perfectable shape         → Workspace thesis + topology
-  $perfectable document      → CHROME.md (if chrome exists)
-  [write code]
-  $perfectable detect        → On each UI file (or hooks on)
-  $perfectable critique      → Design review, heuristic scores
-  $perfectable audit         → Technical + platform audit
-  $perfectable harden        → Crash/dirty/a11y/i18n/perms
-  $perfectable adapt         → Sizes, HiDPI, compact chrome
-  $perfectable polish        → Final batched pass (inherits P0/P1)
+  $perfectable init          → APP.md, including posture and composition
+  $perfectable shape         → thesis, composition, spatial contract
+  [write that contract]
+  $perfectable layout        → if the first render has one interval everywhere
+  $perfectable detect        → on touched UI files
 
 EXISTING APP REVIEW:
-  $perfectable context       → Check state
-  $perfectable document      → If CHROME.md missing
-  $perfectable critique      → UX review
-  $perfectable audit         → Technical audit
-  $perfectable polish        → Fix P0/P1
+  $perfectable document      → if CHROME.md is missing
+  $perfectable layout        → when the complaint is spatial
+  $perfectable critique      → when the user asked for a review
+  $perfectable polish        → to finish P0/P1, after the composition is right
+
+Run harden, adapt, audit, typeset, or materials when that specific gap is the one in front of you.
 
 CI GATE:
   $perfectable detect --format=sarif src/ → Upload SARIF
@@ -151,7 +154,11 @@ CI GATE:
 
 | File | When |
 |------|------|
-| `references/craft-floor.md` | Before ANY UI edit |
+| `references/craft-floor.md` | Before any UI edit |
+| `references/canon/layout-geometry.md` | During `layout`, via the command file |
+| `references/layout.md` | Spacing, alignment, spread, hierarchy |
+| `references/typeset.md` | Chrome type or prose measure |
+| `references/materials.md` | Color, glass, elevation |
 | `platforms/macos/macos.md` / `windows/windows.md` / `linux/linux.md` | After `init` captures platform |
 | `references/routing.md` | When `/perfectable` invoked with no args |
 | `references/critique.md` | When running `critique` |
@@ -241,4 +248,4 @@ If detector crashes or gives unclear results:
 
 ---
 
-**Remember**: The Workbench skill is a QUALITY GATE, not a style guide. Its detector catches objective defects. Its critique provides scored design review. Both are required before shipping desktop/IDE UI.
+**Remember**: The detector catches mechanical defects. Layout, type, and materials are judged by their command files and by critique. A clean scan does not mean the window is sharp.

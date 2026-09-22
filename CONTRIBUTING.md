@@ -17,9 +17,13 @@ Node 18+.
 | Change | Home |
 |---|---|
 | Detector rules | `skills/perfectable/scripts/detect.mjs` |
+| Spacing roles, spread, optical pass | `skills/perfectable/references/canon/layout-geometry.md` |
+| Compositions | `skills/perfectable/references/canon/compositions.md` |
+| Type, materials | `skills/perfectable/references/canon/type.md`, `materials.md` |
+| Platform pixels and HIG | `skills/perfectable/platforms/<os>/<os>.md` |
 | Craft floor / bans | `skills/perfectable/references/craft-floor.md` |
-| Critique / audit playbooks | `skills/perfectable/references/critique.md`, `audit.md` |
-| macOS / Windows / Linux HIG | `skills/perfectable/platforms/macos/macos.md`, `platforms/windows/windows.md`, `platforms/linux/linux.md` |
+| Command playbooks | `skills/perfectable/references/<command>.md` |
+| Public guides | `docs/layout.md`, `docs/commands.md` |
 | Installer / harnesses | `src/providers.mjs`, `src/install.mjs` |
 | Skill routing | `skills/perfectable/SKILL.md` |
 
@@ -34,5 +38,6 @@ Add a detector case as a file the scanner will actually hit (filename + source p
 ## Pull requests
 
 - Keep the skill body a prompt, not a blog post.
-- A new detector rule needs an `id`, `severity`, and a fixture that fires it.
+- A new detector rule needs an `id`, `severity`, and a fixture that fires it. Layout samples live in `skills/perfectable/fixtures/`.
+- A pixel value lives in one platform file. The public guide points at that file.
 - Do not add npm dependencies unless the installer or detector cannot work without them.

@@ -4,9 +4,9 @@
   "plugins": [
     {
       "name": "perfectable",
-      "description": "Audit IDE and desktop-app UI for LLM coding harnesses",
+      "description": "Lay out and audit IDE and desktop-app UI for LLM coding harnesses",
       "source": "./",
-      "version": "1.0.0"
+      "version": "2.0.0"
     }
   ]
 }

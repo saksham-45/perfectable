@@ -26,17 +26,27 @@ Never ask for CSS values or "VS Code / Zed / Xcode" as an aesthetic lane. Those 
 
 ## Phase 2: Workspace thesis
 
-Pick one and defend it. Do not hybridize.
+Pick one thesis and defend it. Do not hybridize.
 
-| Thesis | When it fits |
-|---|---|
-| **Editor-first** | Buffer is the product; chrome recedes (Zed, Sublime). |
-| **Activity-bar workbench** | Several peer tools (edit, debug, git, search) share one window. |
-| **Palette-first** | Experts live in the command palette; chrome is sparse. |
-| **Document windows** | Multi-window OS documents, not one workspace (TextEdit, many native apps). |
-| **Inspector + canvas** | Design/tool apps: canvas center, inspector edge. |
+| Thesis | When it fits | Composition |
+|---|---|---|
+| **Editor-first** | Buffer is the product; chrome recedes (Zed, Sublime). | `editor-first` |
+| **Activity-bar workbench** | Several peer tools (edit, debug, git, search) share one window. | `activity-workbench` |
+| **Palette-first** | Experts live in the command palette; chrome is sparse. | `palette-first` |
+| **Document windows** | Multi-window OS documents, not one workspace (TextEdit, many native apps). | `document-window` |
+| **Inspector + canvas** | Design/tool apps: canvas center, inspector edge. | `canvas-inspector` |
 
-Write the topology: what is always visible, what toggles, what is a window vs a panel, where focus starts, how splits work, how layout persists.
+Then pick one composition from [canon/compositions.md](canon/compositions.md). The five theses map to the five compositions in the table. Use `three-pane` for a workspace whose job is a collection plus one open item, `object-browser` for files and other navigable objects, and `settings` only for a preferences window. One composition per window.
+
+Load [canon/layout-geometry.md](canon/layout-geometry.md) and write the spatial contract. It is required. A brief without it is incomplete.
+
+- Sovereign surface
+- Posture: sovereign (hours in the window), transient (dialog or palette), or daemonic (almost no UI)
+- Where air goes
+- What collapses at compact width
+- Which spacing roles the window will use (names only; lengths come from the platform file at build time)
+
+Do not pick hex values.
 
 ## Phase 3: Brief
 
@@ -44,7 +54,7 @@ Smallest useful brief:
 
 1. **Job and audience**
 2. **Primary object and success**
-3. **Workspace thesis and topology**
+3. **Workspace thesis, composition id, and spatial contract** (sovereign surface, posture, where air goes, compact behavior, spacing roles)
 4. **Native contracts** (menus, dialogs, titlebar, appearance, quit)
 5. **Keyboard** (primary chords, palette, focus rings)
 6. **States and ranges**

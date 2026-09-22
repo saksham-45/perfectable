@@ -1,13 +1,13 @@
-# Migrating from Impeccable to Workbench
+# Migrating from Impeccable to Perfectable
 
-Impeccable handles **web** UI quality. Workbench handles **desktop/IDE** UI quality. If your Electron/Tauri/native app was built with web patterns, this guide maps the migration.
+Impeccable handles **web** UI quality. Perfectable handles **desktop/IDE** UI quality. If your Electron/Tauri/native app was built with web patterns, this guide maps the migration.
 
 ## Core Philosophy Shift
 
-| Impeccable (Web) | Workbench (Desktop) |
+| Impeccable (Web) | Perfectable (Desktop) |
 |------------------|---------------------|
-| Fluid type scales (`clamp()`) | Fixed type scales (12px, 13px, 14px) |
-| 44px touch targets | 22–28px dense rows + hit padding |
+| Fluid type scales (`clamp()`) | The platform file's fixed chrome sizes |
+| 44px touch targets | The platform file's row metric, plus hit padding |
 | Marketing CTAs (pill buttons) | Native toolbar buttons / menu items |
 | Hamburger menus | Native menu bar (App/File/Edit/View/Window/Help) |
 | Custom modals for everything | Native dialogs (file, confirm, preferences) |
@@ -19,7 +19,7 @@ Impeccable handles **web** UI quality. Workbench handles **desktop/IDE** UI qual
 ## Pattern Migration Map
 
 ### Navigation
-| Web (Impeccable) | Desktop (Workbench) |
+| Web (Impeccable) | Desktop (Perfectable) |
 |------------------|---------------------|
 | `<nav>` + hamburger | Native menu bar + keyboard accelerators |
 | Tab bar (React Router) | Native tabs (document model) or workspace panels |
@@ -45,10 +45,10 @@ Impeccable handles **web** UI quality. Workbench handles **desktop/IDE** UI qual
 ### Layout & Density
 | Web | Desktop |
 |-----|---------|
-| 44px+ touch rows | **22–28px rows** + 4px hit padding |
+| 44px+ touch rows | **Platform row metric** + hit padding |
 | Card-based layouts | Split views / panes / inspectors |
 | Grid/flex everything | Native split views (`NSSplitView`, `NavigationSplitView`, `CommandBar`) |
-| Full-width containers | Editor keeps measure (max 80-100ch) |
+| Full-width containers | Prose uses the measure in [canon/type.md](canon/type.md); code uses the pane |
 
 ### Theming
 | Web | Desktop |
@@ -56,7 +56,7 @@ Impeccable handles **web** UI quality. Workbench handles **desktop/IDE** UI qual
 | Tailwind `dark:` | **CSS custom properties** + `prefers-color-scheme` + `prefers-contrast` + `prefers-reduced-motion` |
 | Custom color palette | **Semantic tokens**: surface, chrome, editor, selection, find, error, warning, success |
 | `bg-violet-600` | Platform accent (macOS: system blue, Windows: system accent, Linux: theme accent) |
-| `rounded-lg` | Platform radii (macOS: 4-6px, Windows: 4px, Linux: theme-defined) |
+| `rounded-lg` | The platform file's control radius |
 
 ### Windowing
 | Web | Desktop |
@@ -68,7 +68,7 @@ Impeccable handles **web** UI quality. Workbench handles **desktop/IDE** UI qual
 
 ## Step-by-Step Migration
 
-### 1. Run Workbench Init
+### 1. Run Perfectable Init
 ```bash
 $perfectable init
 ```
@@ -87,37 +87,43 @@ $perfectable detect --json src/
 Catches: `web-file-picker`, `modal-preferences`, `touch-density-in-ide`, `web-cta-in-chrome`, `fake-traffic-lights`, `hamburger-menu`, `vscode-activity-bar`, `ai-ide-palette`, `pulsing-ai-dot`, `hover-only-affordance`, `no-focus-ring`.
 
 ### 4. Fix P0 Findings First
-| Detector Rule | Impeccable Pattern | Workbench Fix |
+| Detector Rule | Impeccable Pattern | Perfectable Fix |
 |---------------|-------------------|---------------|
 | `web-file-picker` | `<input type="file">` | Native `dialog.showOpenDialog()` |
 | `modal-preferences` | Settings modal | Preferences window / panel |
-| `touch-density-in-ide` | `min-h-[44px]` | `height: 24px` + hit padding |
+| `touch-density-in-ide` | `min-h-[44px]` | Platform row metric + hit padding |
 | `web-cta-in-chrome` | `rounded-full px-6 py-3` | Native toolbar button |
 | `fake-traffic-lights` | Custom red/yellow/green dots | `titleBarStyle: 'hiddenInset'` |
 | `no-focus-ring` | `outline: none` | Add `:focus-visible` ring |
 | `hover-only-affordance` | `opacity-0 hover:opacity-100` | Persistent affordance |
 
-### 5. Run Critique + Audit
+### 5. Give the window a spatial contract
+```bash
+$perfectable layout src/
+```
+Bans are not a layout. Name the composition, the sovereign surface, and where the air goes. Two spacing roles, minimum.
+
+### 6. Run Critique + Audit
 ```bash
 $perfectable critique src/
 $perfectable audit src/
 ```
 Replaces Impeccable's design review with scored heuristic review + technical audit.
 
-### 6. Harden & Adapt
+### 7. Harden & Adapt
 ```bash
 $perfectable harden src/
 $perfectable adapt src/
 ```
 Handles: crash restore, dirty docs, i18n, permissions, HiDPI, compact chrome — not in Impeccable.
 
-### 7. Polish
+### 8. Polish
 ```bash
 $perfectable polish src/
 ```
 Final batched pass inheriting P0/P1 from critique.
 
-## Common Impeccable → Workbench Refactors
+## Common Impeccable → Perfectable Refactors
 
 ### Before (Impeccable-style Electron)
 ```tsx
@@ -139,66 +145,16 @@ Final batched pass inheriting P0/P1 from critique.
 </header>
 ```
 
-### After (Workbench-native)
-```tsx
-// ✅ Native desktop patterns
-<header className="titlebar" style={{ WebkitAppRegion: 'drag' }}>
-  <div className="titlebar-drag" style={{ WebkitAppRegion: 'drag' }}>
-    <span className="titlebar-title">Untitled ●</span>
-  </div>
-  <div className="titlebar-controls" style={{ WebkitAppRegion: 'no-drag' }}>
-    <button className="toolbar-btn" aria-label="New File (Cmd+N)" title="New File (Cmd+N)">
-      <NewFileIcon />
-    </button>
-    <button className="toolbar-btn" aria-label="Open File (Cmd+O)" title="Open File (Cmd+O)">
-      <OpenFileIcon />
-    </button>
-    <button className="toolbar-btn" aria-label="Save (Cmd+S)" title="Save (Cmd+S)" disabled={!isDirty}>
-      <SaveIcon />
-    </button>
-    <button className="titlebar-btn" data-action="minimize" aria-label="Minimize">−</button>
-    <button className="titlebar-btn" data-action="maximize" aria-label="Maximize">□</button>
-    <button className="titlebar-btn" data-action="close" aria-label="Close">×</button>
-  </div>
-</header>
-```
+### After
 
-```css
-/* Workbench semantic tokens */
-:root {
-  --color-surface: #fff;
-  --color-chrome: #f5f5f5;
-  --color-chrome-border: #e0e0e0;
-  --color-focus: #007acc;
-  --density-toolbar: 32px;
-  --density-row: 24px;
-}
-
-.titlebar {
-  height: 32px;
-  display: flex;
-  justify-content: space-between;
-  background: var(--color-chrome);
-  border-bottom: 1px solid var(--color-chrome-border);
-}
-
-.toolbar-btn {
-  height: var(--density-toolbar);
-  min-width: var(--density-toolbar);
-  border: none;
-  background: transparent;
-  color: var(--color-text-secondary);
-  border-radius: 4px;
-}
-.toolbar-btn:hover { background: var(--color-chrome-border); }
-.toolbar-btn:focus-visible { outline: 2px solid var(--color-focus); }
-```
+Use the host titlebar (`hiddenInset` on macOS, system caption buttons on Windows, the toolkit header bar on Linux). Do not draw minimize, maximize, and close. Put named toolbar actions in the command band, after the system inset, with `no-drag` on each control. Open goes through the system file dialog. Tokens use the names in [canon/materials.md](canon/materials.md). Lengths come from the platform file. Then run `$perfectable layout` so the sidebar, the buffer, and the command band do not share one padding.
 
 ## Checklist for Migration Complete
 
-- [ ] `$perfectable init` → APP.md with platform/shell/windowing/input
+- [ ] `$perfectable init` → APP.md with platform, shell, posture, composition
 - [ ] `$perfectable document` → CHROME.md with tokens + components
-- [ ] `$perfectable detect` → 0 findings (or documented ignores)
+- [ ] `$perfectable detect` → 0 findings, or an ignore with a reason
+- [ ] `$perfectable layout` → spatial contract, two spacing roles, air in the sovereign surface
 - [ ] `$perfectable audit` → Platform conformance ≥ 3/4
 - [ ] `$perfectable critique` → Design health ≥ 70%
 - [ ] `$perfectable harden` → Crash restore, dirty docs, i18n, a11y
@@ -221,7 +177,9 @@ Final batched pass inheriting P0/P1 from critique.
 - ❌ Gradient text in chrome
 - ❌ Icon-only controls without labels/tooltips/shortcuts
 - ❌ Viewport-relative sizing (use native split views)
+- ❌ One padding value for every relationship
+- ❌ Glass or blur on the editor, the table, or the document
 
 ---
 
-**Remember**: Impeccable makes websites beautiful. Workbench makes tools *work*. The editor is the product; chrome disappears into the task.
+**Remember**: Impeccable makes websites beautiful. Perfectable makes tools *work*. The editor is the product; chrome disappears into the task.

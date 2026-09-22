@@ -1,10 +1,10 @@
 # Perfectable
 
-**A quality gate for AI-built IDEs and desktop apps.**
+**Layout and quality for AI-built desktop apps.**
 
-Coding agents are good at websites. They are bad at tools. Ask Claude, Cursor, Codex, or Grok to build an editor or an Electron/Tauri app and you usually get a website in a window: Inter, a violet accent, a hamburger menu, hover-only chrome, a 44px touch toolbar, and no real File / Edit / Window menu.
+Coding agents are good at websites. They are bad at tools. Ask Claude, Cursor, Codex, or Grok to build an editor or an Electron/Tauri app and you usually get a website in a window: Inter, a violet accent, a hamburger menu, hover-only chrome, a 44px touch toolbar, one padding value everywhere, and no real File / Edit / Window menu.
 
-[Impeccable](https://impeccable.style) already catches that class of failure on the web. Perfectable is the same idea for **professional chrome** — code editors, workbenches, and native desktop shells — where the editor is the product and the OS is the contract.
+[Impeccable](https://impeccable.style) already catches that class of failure on the web. Perfectable is the desktop counterpart. It places the window — one surface owns the spare space, related controls sit tight, regions separate — and it still enforces the operating system's contract. Guides: [Layout](docs/layout.md), [Commands](docs/commands.md).
 
 ```bash
 npx github:saksham-45/perfectable install -y --scope=project
@@ -22,12 +22,13 @@ LLMs grade their own UI generously. A prompt that says "make it feel native" doe
 
 Perfectable puts a loop around the agent:
 
-1. **Pinned truth** — `APP.md` and `CHROME.md` beat model taste.
-2. **Craft floor** — density, keyboard, native menus, dirty documents. Judgment the scanner cannot catch.
-3. **Deterministic detector** — regex/AST rules for Electron isolation, missing drag regions, web file pickers, unvirtualized trees, VS Code clones, Inter + violet-on-black, and more.
-4. **Dual-agent critique** — UX review isolated from detector evidence, then synthesized.
-5. **Scored audit** — a11y, performance, theming, platform HIG, workbench integrity, shell security.
-6. **Edit hook** — findings come back into the agent after UI writes, instead of an open-ended "polish until good" loop.
+1. **Pinned truth** — `APP.md` and `CHROME.md` beat model taste. Posture and composition are part of that truth.
+2. **Layout** — a spatial contract before CSS: which of eight window types this is, where the air goes, and at least two spacing roles. See [docs/layout.md](docs/layout.md).
+3. **Craft floor** — density, keyboard, native menus, dirty documents. Judgment the scanner cannot catch.
+4. **Deterministic detector** — Electron isolation, missing drag regions, web file pickers, glass on the editor, equal columns, phone-sized chrome type, VS Code clones, and more.
+5. **Dual-agent critique** — 17 heuristics, including rhythm, alignment, and spread.
+6. **Scored audit** — a11y, performance, theming, platform HIG, workbench integrity, shell security.
+7. **Edit hook** — findings come back into the agent after UI writes, instead of an open-ended "polish until good" loop.
 
 Use it when you are **generating or reviewing** an IDE, editor, or desktop app with an LLM and you want the result to feel like a tool, not a landing page.
 
@@ -42,7 +43,9 @@ Typical LLM desktop slop:
 | Hamburger menu, web `<input type="file">` | Native menu bar and OS file dialogs |
 | Fake traffic lights / no titlebar drag | System window controls, `-webkit-app-region: drag` |
 | Hover-only tab close and toolbar icons | Keyboard + persistent affordances |
-| 44px "accessible" tree rows | 22–28px professional density with hit padding |
+| 44px "accessible" tree rows | The platform's row height, plus hit padding |
+| One 16px gap everywhere, three equal columns | Two spacing roles, leftover space in the work |
+| Glass and blur on the editor | Material on navigation only. Content stays solid |
 | `nodeIntegration: true` | Isolated renderer + preload |
 | Unvirtualized `files.map` in the sidebar | Windowed lists that survive 10k files |
 | Inter / Geist / violet-on-near-black VS Code skin | A pinned chrome system in `CHROME.md` |
@@ -91,16 +94,21 @@ In the harness, `/perfectable` with no argument shows a menu. Do not skip that.
 
 | Command | What it does |
 |---|---|
-| `init` | Pin product truth in `APP.md` (platform, shell, windowing, native contracts) |
-| `document` | Extract `CHROME.md` from existing chrome |
-| `shape` | Plan workspace IA before code |
-| `critique` | Dual-agent UX review, 14 heuristics scored /56 |
+| `init` | Pin product truth in `APP.md` (platform, shell, posture, composition, native contracts) |
+| `document` | Extract `CHROME.md` from existing chrome, including spacing roles and the material layer |
+| `shape` | Plan the workspace and the spatial contract before code |
+| `layout` | Regions, rhythm, spread, optical alignment |
+| `typeset` | Chrome type versus the document's measure |
+| `materials` | Content, navigation, and transient layers |
+| `critique` | Dual-agent UX review, 17 heuristics scored /68 |
 | `audit` | Technical + platform + shell security, /24 |
 | `polish` | One batched finish pass; inherits critique P0/P1 |
 | `harden` | Crash restore, dirty documents, a11y, i18n, permissions |
-| `adapt` | Window sizes, HiDPI, compact/full chrome |
+| `adapt` | Window sizes, HiDPI, compact chrome from the composition |
 | `detect` | Deterministic scan only |
 | `hooks` | `on` / `off` / `status` / ignores |
+
+The full playbook is [docs/commands.md](docs/commands.md).
 
 ## CLI
 
@@ -125,11 +133,14 @@ node bin/perfectable.mjs install -y --providers=claude,cursor --scope=project --
 Layout:
 
 ```
-skills/perfectable/     the Agent Skill (SKILL.md, playbooks, detector)
-bin/perfectable.mjs      installer + CLI
-plugin.json            Grok plugin manifest
-.claude-plugin/        Claude Code plugin + marketplace
-.grok-plugin/          Grok marketplace index
+skills/perfectable/          the Agent Skill (SKILL.md, playbooks, detector, fixtures)
+skills/perfectable/references/canon/   layout, type, materials, history
+docs/layout.md               human guide to placing a window
+docs/commands.md             command reference
+bin/perfectable.mjs          installer + CLI
+plugin.json                  Grok plugin manifest
+.claude-plugin/              Claude Code plugin + marketplace
+.grok-plugin/                Grok marketplace index
 ```
 
 ## License

@@ -6,7 +6,7 @@ Load the platform file first. Native windowing beats CSS breakpoints.
 
 ## Check
 
-- **Widths:** compact (~800px), regular (~1200px), wide (~1600px+). Sidebars collapse; the editor keeps measure; no horizontal clip of tabs/title.
+- **Widths:** compact (~800px), regular (~1200px), wide (~1600px+). Collapse what the active composition names, not a generic sidebar. At wide, prose stays on the measure in [canon/type.md](canon/type.md) and the margin grows; a card must not float in an empty window. No horizontal clip of tabs or the title. Platform examples live in the platform pack (macOS sidebar auto-collapse, NavigationView breakpoints). Do not copy those pixels here.
 - **Heights:** short laptop screens; status + tabs + titlebar must leave an editor.
 - **HiDPI:** hairlines stay 1px device, icons snap to the grid, no blurry custom window controls.
 - **Appearances:** light, dark, system follow. High contrast if the OS has it.

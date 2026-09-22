@@ -1,17 +1,19 @@
 ---
 name: perfectable
 description: >
-  Audit, critique, shape, polish, harden, and adapt IDE and desktop-app UI
+  Audit, critique, shape, lay out, typeset, and finish IDE and desktop-app UI
   (Electron, Tauri, native macOS/Windows/Linux). Use when building or reviewing
   a code editor, workbench, desktop shell, titlebar, menu bar, command palette,
-  file tree, settings window, or native windowing; when an LLM-built desktop
-  app feels like a website; or when the user runs /perfectable. Catches web-shaped
-  chrome, missing keyboard paths, VS Code clones, and platform-HIG drift. Not
-  for websites, landing pages, or mobile-only apps (use impeccable).
-argument-hint: "[init|document|shape|critique|audit|polish|harden|adapt|hooks|detect] [target]"
+  file tree, settings window, or native windowing; when placing regions, spacing,
+  alignment, density, type, or materials in a desktop window; when an LLM-built
+  desktop app feels like a website; or when the user runs /perfectable. Catches
+  web-shaped chrome, flat spacing, missing keyboard paths, VS Code clones, and
+  platform-HIG drift. Not for websites, landing pages, or mobile-only apps
+  (use impeccable).
+argument-hint: "[init|document|shape|layout|typeset|materials|critique|audit|polish|harden|adapt|hooks|detect] [target]"
 metadata:
-  short-description: Audit IDE and desktop-app UI
-  version: "1.0.0"
+  short-description: Desktop UI craft and layout
+  version: "2.0.0"
 ---
 
 # Perfectable
@@ -49,6 +51,9 @@ Operate-mode craft for IDEs, editors, and desktop apps. The editor is the produc
 | `init` | Capture durable product truth in APP.md | [references/init.md](references/init.md) |
 | `document` | Extract CHROME.md from existing chrome | [references/document.md](references/document.md) |
 | `shape [feature]` | Plan workspace IA before code | [references/shape.md](references/shape.md) |
+| `layout [target]` | Regions, rhythm, spread, optical alignment | [references/layout.md](references/layout.md) |
+| `typeset [target]` | Chrome type versus document measure | [references/typeset.md](references/typeset.md) |
+| `materials [target]` | Layers, tokens, elevation | [references/materials.md](references/materials.md) |
 | `critique [target]` | Dual-agent UX review with scores | [references/critique.md](references/critique.md) |
 | `audit [target]` | Technical + platform checks | [references/audit.md](references/audit.md) |
 | `polish [target]` | Final quality pass; inherit critique P0/P1 | [references/polish.md](references/polish.md) |
@@ -57,7 +62,7 @@ Operate-mode craft for IDEs, editors, and desktop apps. The editor is the produc
 | `hooks …` | Install or configure the detector hook | [references/hooks.md](references/hooks.md) |
 | `detect [path]` | Run the deterministic scanner | `scripts/detect.mjs` |
 
-Routing: explicit or clearly implied command → load that reference (and the platform file `context.mjs` named). Otherwise treat as general chrome work: inspect the target, load craft-floor, edit, then run the detector on touched files. Missing APP.md on a **new** app routes through `init` first; a narrow refinement of existing chrome proceeds and offers `init` afterward.
+Routing: explicit or clearly implied command → load that reference (and the platform file `context.mjs` named). A spacing, alignment, empty-space, or hierarchy complaint loads [references/layout.md](references/layout.md) before other chrome work. Otherwise treat as general chrome work: inspect the target, load craft-floor, edit, then run the detector on touched files. Missing APP.md on a **new** app routes through `init` first; a narrow refinement of existing chrome proceeds and offers `init` afterward.
 
 After `init` writes APP.md, resume without rerunning `context.mjs`; `init` loads the platform reference itself.
 

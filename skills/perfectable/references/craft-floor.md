@@ -6,8 +6,9 @@ Load after direction is settled, immediately before editing UI. A pinned APP.md 
 
 Run these together on the built result in one inspection round.
 
-- **Contrast:** chrome text, editor text, placeholders, selection, and find-highlights ≥4.5:1. Secondary text is tinted from the surface, never raw gray on color.
-- **Density:** tree rows, tabs, and menu items 22–28px tall with extra hit padding, not 44px touch rows. Tight groups, generous separation between regions.
+- **Contrast:** chrome text, editor text, placeholders, selection, and find-highlights ≥4.5:1. Boundaries and focus rings ≥3:1. Secondary text is tinted from the surface, never raw gray on color.
+- **Density:** tree rows, tabs, and menu items use the platform file's row metric plus hit padding. A 44px touch row in that chrome fails.
+- **Rhythm and spread:** at least two spacing roles from [canon/layout-geometry.md](canon/layout-geometry.md). Air sits in the sovereign surface, not in chrome padding. The squint test names that surface first.
 - **Type:** one family for chrome. Fixed sizes, not fluid clamp. Mono only in editor, terminal, and diffs. Tabular nums in gutters and status.
 - **States:** every control has default, hover, focus, active, disabled, loading, error. Empty states teach the next action.
 - **Keyboard:** every primary action has a shortcut; focus never vanishes; Esc backs out of palette, menu, and modal.
@@ -19,6 +20,9 @@ Run these together on the built result in one inspection round.
 
 The brief can earn any of these. Reaching for one when the axis is free means you were not deciding — rewrite the element.
 
+- Equal columns for unequal jobs, and one padding value for every relationship.
+- Glass, blur, or a decorative shadow on the editor, the table, or the document.
+- The phone body size (17px / `text-lg`) as desktop chrome type.
 - VS Code skin (48px activity bar, icon-only, Inter/Geist, violet accent) when the product is not VS Code.
 - Web primary buttons, pills, and marketing CTAs inside tool chrome.
 - Gradient text, glow shadows, pulsing status dots, fake typing carets.

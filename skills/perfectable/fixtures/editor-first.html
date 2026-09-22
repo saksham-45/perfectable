@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Editor first</title>
+  <style>
+    .window {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      background: #f6f6f6;
+      color: #1c1c1e;
+    }
+    .titlebar {
+      grid-column: 1 / -1;
+      font-size: 13px;
+      height: 32px;
+    }
+    .sidebar { padding: 4px; }
+    .row {
+      height: 24px;
+      border-radius: 4px;
+    }
+    .editor {
+      font-family: ui-monospace, monospace;
+      padding: 24px;
+    }
+    .prose { max-width: 66ch; }
+    .status {
+      grid-column: 1 / -1;
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">Untitled</div>
+    <div class="sidebar">
+      <div class="row">notes.md</div>
+    </div>
+    <div class="editor">
+      <div class="prose">
+        <p class="empty">Open a file to edit it.</p>
+      </div>
+    </div>
+    <div class="status">Ln 1</div>
+  </div>
+</body>
+</html>

@@ -42,7 +42,7 @@ Write only confirmed facts and explicitly marked open decisions. New files go at
 ```markdown
 # App
 
-<!-- perfectable:app-schema 1 -->
+<!-- perfectable:app-schema 2 -->
 
 ## Platform
 
@@ -55,6 +55,14 @@ electron
 ## Windowing
 
 workspace
+
+## Posture
+
+sovereign
+
+## Composition
+
+editor-first
 
 ## Input
 
@@ -86,8 +94,6 @@ Only include if built-in personas don't cover your audience.]
 
 ## Capabilities and Constraints
 
-## Capabilities and Constraints
-
 [Confirmed functionality, technical constraints, terminology, undecided facts.]
 
 ## Native Contracts
@@ -107,9 +113,9 @@ Only include if built-in personas don't cover your audience.]
 [Known needs or required standard. Omit when none established.]
 ```
 
-`## Platform` is the bare value `macos`, `windows`, `linux`, or `adaptive`. `## Shell` is `electron`, `tauri`, `swiftui`, `winui`, `gtk`, or `native`. `## Windowing` is `document`, `workspace`, or `palette`. `## Input` is `keyboard-first`, `pointer-first`, or `mixed`.
+`## Platform` is the bare value `macos`, `windows`, `linux`, or `adaptive`. `## Shell` is `electron`, `tauri`, `swiftui`, `winui`, `gtk`, or `native`. `## Windowing` is `document`, `workspace`, or `palette`. `## Posture` is `sovereign`, `transient`, or `daemonic`. `## Composition` is one id from [canon/compositions.md](canon/compositions.md). `## Input` is `keyboard-first`, `pointer-first`, or `mixed`.
 
-Copy the `perfectable:app-schema 1` comment verbatim.
+Copy the `perfectable:app-schema 2` comment verbatim.
 
 After writing, load the platform reference for the value you recorded (`macos.md` / `windows.md` / `linux.md`, or all three for `adaptive`) before any chrome work.
 

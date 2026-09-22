@@ -38,7 +38,7 @@ Do not perfect one corner while the rest sits below the same bar.
 
 - Match neighboring terminology, save behavior, and disclosure.
 - Primary task and current state obvious; editor still the product.
-- Density 22–28px rows with hit padding; optical alignment, not just math.
+- Density from the platform file, with hit padding. Rhythm and spread from [canon/layout-geometry.md](canon/layout-geometry.md): two spacing roles, air in the sovereign surface, optical alignment on a screenshot. A wrong composition goes back to `shape`, not into a quiet restyle.
 - Semantic tokens; contrast in every state and appearance.
 - One icon family. Visible focus. Interruptible motion, state only.
 - Long, missing, localized, offline, and permission-limited content where the product can encounter it.

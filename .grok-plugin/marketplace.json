@@ -5,10 +5,10 @@
   "plugins": [
     {
       "name": "perfectable",
-      "description": "Audit, critique, shape, polish, harden, and adapt IDE and desktop-app UI",
+      "description": "Lay out, critique, shape, polish, harden, and adapt IDE and desktop-app UI",
       "category": "development",
       "source": { "type": "local", "path": "./" },
-      "version": "1.0.0",
+      "version": "2.0.0",
       "keywords": ["ide", "desktop", "electron", "tauri", "audit"]
     }
   ]

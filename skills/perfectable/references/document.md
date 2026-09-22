@@ -27,14 +27,14 @@ Search in order. Record name, value, and file. Do not invent tokens the project 
 - **Tailwind**: If `tailwind.config.*` exists, parse `theme.extend` and map to semantic tokens (e.g., `colors.surface` → `--color-surface`).
 - **CSS Variables**: Scan all `.css`, `.scss`, `.sass`, `.less` files for `:root { --color-*: }` patterns.
 - **Design Tokens**: If `tokens.json` or `design-tokens.json` exists, use as source of truth.
-- **Component Libraries**: Detect Radix UI, shadcn/ui, Headless UI, Material UI — map their tokens to Workbench semantics.
+- **Component Libraries**: Detect Radix UI, shadcn/ui, Headless UI, Material UI — map their tokens to the perfectable token names in [canon/materials.md](canon/materials.md).
 
 ## Write CHROME.md
 
 ```markdown
 # Chrome
 
-<!-- perfectable:chrome-schema 1 -->
+<!-- perfectable:chrome-schema 2 -->
 
 ## Overview
 
@@ -54,9 +54,31 @@ Search in order. Record name, value, and file. Do not invent tokens the project 
 
 ## Density
 
-- Row / tab / menu item: [px]
+- Row / tab / menu item: [platform metric, from the platform file]
 - Hit padding beyond the visible row: [px]
 - Compact vs full chrome breakpoints: [widths]
+
+## Spacing roles
+
+- tight / control / group / inset: [value and where]
+- Region boundaries: [splitter or hairline, not a padded gutter]
+
+## Region map
+
+- Composition id: [from the catalog]
+- Sovereign surface: [which node]
+- Where air goes: [one sentence]
+
+## Measure
+
+- Prose cap: [ch]
+- Code and tables: [pane, or a stated exception]
+
+## Material layer
+
+- Functional: [which surfaces, which platform material]
+- Transient: [menus, popovers]
+- Content: [solid surfaces]
 
 ## Color
 

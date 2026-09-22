@@ -21,5 +21,6 @@ The Linux pack covers:
 
 - Windowing: client-side decorations (libadwaita header bar on GNOME, native on KDE), window controls on configured side
 - Keyboard: Ctrl+N/O/S/W/Q, F10/Alt for menus, Esc to back out
-- Appearance: color-scheme portal, high contrast, reduced motion
+- Metrics: desktop font, 1024×600 minimum, a max width on prose, a sidebar that stays in proportion. No invented row height. Rules live in `linux.md`
+- Appearance: color-scheme portal, high contrast, reduced motion, the toolkit theme rather than another desktop's materials
 - Slop tests: macOS traffic lights on GNOME/KDE, web file pickers (ignoring portal), hover-only header-bar actions, ignoring portal file picker when sandboxed, dark-only UI

@@ -1,7 +1,7 @@
 {
   "name": "perfectable",
-  "version": "1.0.0",
-  "description": "Quality gate for AI-built IDEs and desktop apps. Deterministic detector, dual-agent critique, scored audit, LSP integration.",
+  "version": "2.0.0",
+  "description": "Layout and quality gate for AI-built desktop apps. Spatial craft, deterministic detector, dual-agent critique, scored audit.",
   "type": "module",
   "bin": {
     "perfectable": "./bin/perfectable.mjs",
@@ -16,6 +16,8 @@
     ".claude-plugin/marketplace.json",
     ".grok-plugin/marketplace.json",
     "README.md",
+    "CHANGELOG.md",
+    "docs",
     "LICENSE"
   ],
   "scripts": {

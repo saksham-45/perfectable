@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Three pane</title>
+  <style>
+    .window {
+      display: grid;
+      grid-template-columns: 200px 280px minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      background: #f6f6f6;
+      color: #1c1c1e;
+    }
+    .titlebar {
+      grid-column: 1 / -1;
+      font-size: 13px;
+    }
+    .row {
+      height: 28px;
+      border-radius: 4px;
+    }
+    .detail { padding: 20px 32px; }
+    .prose { max-width: 66ch; }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">Inbox</div>
+    <nav>
+      <div class="row">Inbox</div>
+    </nav>
+    <div>
+      <div class="row">Ada — Thursday</div>
+    </div>
+    <article class="detail">
+      <div class="prose">
+        <p>The note stays on the measure. The margin grows with the window.</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

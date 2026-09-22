@@ -31,7 +31,7 @@ Evaluate: design specificity (authored for this product vs category-interchangea
 
 Cognitive load: fail any of: single focus, chunking ≤4, grouping, hierarchy, one decision at a time, working memory, progressive disclosure. 4+ failures = critical.
 
-Score the 14 heuristics 0–4 using [Heuristics](#heuristics). Mark a heuristic `n/a` only when it cannot apply; renormalize the maximum.
+Score the 17 heuristics 0–4 using [Heuristics](#heuristics). Mark a heuristic `n/a` only when it cannot apply; renormalize the maximum.
 
 Walk 2–3 personas from [Personas](#personas) through the primary action. Name the exact control that fails them.
 
@@ -72,9 +72,12 @@ First line:
 | 12 | Platform fluency | | |
 | 13 | Workspace memory | | |
 | 14 | Scale | | |
+| 15 | Spatial rhythm | | |
+| 16 | Optical alignment | | |
+| 17 | Spread | | |
 | **Total** | | **??/[applicable max]** | **[band]** |
 
-Applicable max is 4 × scored heuristics (56 when all apply). Bands by percentage: 90%+ Excellent, 70%+ Good, 50%+ Acceptable, 30%+ Poor, else Critical. Most real tools score 32–44 / 56.
+Applicable max is 4 × scored heuristics (68 when all apply). Bands by percentage: 90%+ Excellent, 70%+ Good, 50%+ Acceptable, 30%+ Poor, else Critical. Most real tools score in the middle of the band, not at the ceiling.
 
 ### Design Specificity Verdict
 
@@ -82,7 +85,7 @@ Start here. LLM assessment, then detector summary (counts, ids, locations, false
 
 ### Overall impression, what's working (2–3), priority issues (3–5)
 
-Each issue: **[P0–P3] What** · Why it matters · Fix · Suggested command (`$perfectable adapt|audit|critique|document|harden|polish|shape`).
+Each issue: **[P0–P3] What** · Why it matters · Fix · Suggested command (`$perfectable layout|typeset|materials|adapt|audit|document|harden|polish|shape`).
 
 P0 blocks the task. P1 before release. P2 next pass. P3 polish. “Would they file a bug?” → at least P1.
 
@@ -109,7 +112,7 @@ Delete the temp body file either way. Then:
 node <skill-base-dir>/scripts/critique-storage.mjs trend "<resolved target>" 5
 ```
 
-Append: **Trend for `<slug>` (last 5 runs): 24 → 28 → 32 (out of 56)** and the written path. First run: say so.
+Append: **Trend for `<slug>` (last 5 runs): 24 → 28 → 32 (out of 68)** and the written path. First run: say so. The denominator is the applicable max for that run, 68 only when every heuristic scored.
 
 ## Ask the user
 
@@ -137,6 +140,11 @@ Score 0–4. A 4 is genuinely excellent.
 12. **Platform fluency** — menu, titlebar, dialogs, appearance, multi-window. Reads native, not a ported site.
 13. **Workspace memory** — layout, splits, open files, pane sizes persist across launch.
 14. **Scale** — 50k-file tree, 10k-line buffer, many editors: still usable.
+15. **Spatial rhythm** — at least two spacing roles. One padding everywhere scores 0. Rules in [canon/layout-geometry.md](canon/layout-geometry.md).
+16. **Optical alignment** — label rail and control rail, icon to cap height, tabular numbers, scrollbars and focus that do not reflow, OS controls outside the toolbar grid.
+17. **Spread** — air in the sovereign surface or the reading measure. Chrome stays dense. Equal columns for unequal jobs score low.
+
+On every critique, answer in one sentence: where the eye went in the first second, and whether that was the task.
 
 ## Personas
 

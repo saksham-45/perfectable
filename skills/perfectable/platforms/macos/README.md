@@ -21,5 +21,6 @@ The macOS pack covers:
 
 - Windowing: traffic lights, hiddenInset titlebar, document proxy icon, sheets vs windows
 - Keyboard: required chords (Cmd+N/O/S/W/Q, etc.), full keyboard access
-- Appearance: system appearance, high contrast, reduce transparency/motion, vibrancy
+- Metrics and materials: sidebar size follows System Settings, Liquid Glass on the functional layer only, system toolbar spacing. Lengths live in `macos.md`, checked 2026-09-22
+- Appearance: system appearance, high contrast, reduce transparency/motion
 - Slop tests: fake traffic lights, hamburger menus, web file pickers, hover-only affordances, dark-only UI

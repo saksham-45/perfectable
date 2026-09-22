@@ -71,7 +71,7 @@ function fixture(name) {
 {
   const r = run(['version']);
   assert.equal(r.status, 0);
-  assert.match(r.stdout, /1\.0\.0/);
+  assert.match(r.stdout, /2\.0\.0/);
 }
 
 {
@@ -104,6 +104,29 @@ function fixture(name) {
   assert.ok(ids.includes('status-gradient-text'), 'gradient text');
   assert.ok(ids.includes('no-focus-ring'), 'no focus ring');
   assert.ok(ids.includes('hover-only-affordance'), 'hover only affordance');
+}
+
+{
+  const root = path.join(PKG_ROOT, 'skills', 'perfectable', 'fixtures');
+  const cases = {
+    'slop-editor.html': ['glass-on-content', 'marketing-radius-on-row', 'ios-body-in-chrome', 'centered-hero-in-shell'],
+    'slop-three-pane.html': ['equal-pane-grid'],
+    'slop-settings.html': ['equal-pane-grid', 'modal-preferences'],
+    'editor-first.html': [],
+    'three-pane.html': [],
+    'settings.html': [],
+  };
+  for (const [name, expected] of Object.entries(cases)) {
+    const r = run(['detect', '--json', '--no-config', name], root);
+    const json = JSON.parse(r.stdout || '{}');
+    const ids = (json.findings || []).map((f) => f.id);
+    if (expected.length === 0) {
+      assert.equal(r.status, 0, `${name} should be clean: ${r.stdout}`);
+    } else {
+      assert.equal(r.status, 2, `${name} should fail: ${r.stdout}`);
+      for (const id of expected) assert.ok(ids.includes(id), `${name} missing ${id}: ${ids.join(',')}`);
+    }
+  }
 }
 
 {

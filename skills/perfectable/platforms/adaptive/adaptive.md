@@ -17,19 +17,16 @@ function loadAdaptivePack(ctx) {
 }
 ```
 
-## Cross-Platform Tokens
+## One window, three hosts
 
-Use semantic tokens that map to platform-specific values:
+Shared across desktops: spacing role names, the composition grammar, token names, and the keyboard verbs below. Different on each desktop: row height, window controls, menu style, and material. Read the host platform file at runtime. A single stylesheet of one desktop's pixels painted onto the other two fails adaptive.
 
-| Semantic Token | macOS | Windows | Linux (GNOME) |
-|----------------|-------|---------|---------------|
-| `--density-row` | 24px | 24px | 24px |
-| `--density-toolbar` | 32px | 32px | 32px |
-| `--radius-sm` | 3px | 4px | 4px |
-| `--radius-md` | 4px | 4px | 4px |
-| `--color-accent` | System Blue | System Accent | Theme Accent |
-| `--color-focus` | System Blue | System Accent | Theme Accent |
-| `--font-chrome` | -apple-system, ... | Segoe UI, ... | system-ui, ... |
+| Token name | Resolves from |
+|---|---|
+| `--density-row`, `--density-toolbar` | The host platform file's metrics |
+| `--font-chrome` | The host UI face |
+| `--color-accent`, `--color-focus` | System accent on that desktop |
+| Material | The host layer model |
 
 ## Keyboard Normalization
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Settings</title>
+  <style>
+    .window {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px;
+      font-family: system-ui, sans-serif;
+      background: #f6f6f6;
+      color: #1c1c1e;
+    }
+    .search { display: block; width: 100%; margin-bottom: 20px; }
+    .group { margin-top: 20px; }
+    .field {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <form class="window">
+    <input class="search" type="search" aria-label="Search settings">
+    <section class="group">
+      <h2>General</h2>
+      <div class="field">
+        <label for="theme">Theme</label>
+        <select id="theme">
+          <option>Follow system</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="font">Font size</label>
+        <select id="font">
+          <option>Default</option>
+        </select>
+      </div>
+    </section>
+  </form>
+</body>
+</html>

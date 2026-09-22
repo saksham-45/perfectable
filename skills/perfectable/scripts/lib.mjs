@@ -197,7 +197,7 @@ export function inferProject(root) {
   }
 
   const appSchemaVersion = getSchemaVersion(app, 'app');
-  const CURRENT_APP_SCHEMA = 1;
+  const CURRENT_APP_SCHEMA = 2;
   if (appSchemaVersion && appSchemaVersion < CURRENT_APP_SCHEMA) {
     console.warn(`[perfectable] APP.md schema version ${appSchemaVersion} < current ${CURRENT_APP_SCHEMA}. Consider running 'init' to migrate.`);
   }
