@@ -113,6 +113,8 @@ Only include if built-in personas don't cover your audience.]
 [Known needs or required standard. Omit when none established.]
 ```
 
+Product facts belong in this file. Visual decisions (tokens, type, materials, spacing values) belong in `CHROME.md`. Do not record a palette here.
+
 `## Platform` is the bare value `macos`, `windows`, `linux`, or `adaptive`. `## Shell` is `electron`, `tauri`, `swiftui`, `winui`, `gtk`, or `native`. `## Windowing` is `document`, `workspace`, or `palette`. `## Posture` is `sovereign`, `transient`, or `daemonic`. `## Composition` is one id from [canon/compositions.md](canon/compositions.md). `## Input` is `keyboard-first`, `pointer-first`, or `mixed`.
 
 Copy the `perfectable:app-schema 2` comment verbatim.

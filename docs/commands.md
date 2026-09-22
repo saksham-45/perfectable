@@ -4,21 +4,33 @@
 
 Pinned `APP.md` beats taste. Existing chrome, once written into `CHROME.md`, beats a new palette. A clean detector run is not a certificate.
 
-| Command | Use it when | It writes or decides |
+Product facts (who it is for, what the numbers mean, the native contracts) live only in `APP.md`, written by `init`. Visual decisions (tokens, spacing roles, the material layer) live only in `CHROME.md`, written by `document`. A pass that styles the window does not rewrite product facts. A pass that records product facts does not pick a palette.
+
+A dashboard is a desktop surface. It is not a webpage and it is not left without a layout. Before styling, `shape` names a spatial contract: the sovereign region, where leftover space goes, and at least two spacing roles. Legitimate dashboard compositions are `briefing`, `exception-board`, and `ledger`. A wall of equal metric cards is none of them.
+
+A clean `detect` run is not a quality certificate. Rhythm, alignment, and spread are scored by `critique`.
+
+| Command | What the pass is for | What it refuses |
 |---|---|---|
-| `init` | A new app, or the product truth is missing | `APP.md`: platform, shell, windowing, posture, composition, native contracts |
-| `document` | Chrome exists and `CHROME.md` does not | `CHROME.md` schema 2: tokens, spacing roles, region map, measure, material layer |
-| `shape` | The workspace is undecided | One thesis, one composition, a spatial contract. No code, no hex values |
-| `layout` | Spacing, alignment, hierarchy, "it feels like a website" | Regions, then intervals, then an optical pass on a screenshot |
-| `typeset` | Chrome type, line length, tabular numbers | Platform face and size for chrome. Measure for prose |
-| `materials` | Color, glass, blur, elevation, contrast | Each surface as content, functional, or transient |
-| `critique` | A review | 17 heuristics (68 when all apply), personas, priority issues |
-| `audit` | Defects, platform conformance, shell security | A scored technical report |
-| `polish` | The composition is right and the finish is not | One batched pass. A wrong thesis goes back to `shape` |
-| `harden` | Crash, dirty documents, i18n, permissions | Edge states |
-| `adapt` | Window sizes, HiDPI, compact chrome | Collapse rules from the composition, at compact, regular, and wide |
-| `detect` | A mechanical scan, or CI | Exit 0 clean, 2 findings, 1 usage error |
-| `hooks` | Findings after every UI edit | `on`, `off`, `status`, ignore a rule or a file |
+| `init` | Durable product setup in `APP.md`: platform, shell, posture, composition, native contracts | A visual system, hex values, or chrome tokens |
+| `document` | Document the incumbent chrome into `CHROME.md` | Inventing tokens the code does not use; overwriting product truth |
+| `shape` | Plan the workspace before code, including a dashboard composition | Hybrid theses, a metric-card wall, CSS values, code |
+| `layout` | Regions, rhythm, spread, then an optical pass | Restyling a wrong composition; one padding value everywhere |
+| `typeset` | Chrome type versus the document measure | Fluid `clamp()` type in chrome; the phone body size on a toolbar; a display face in a label |
+| `materials` | Color and materials: content solid, navigation on the platform material, transient surfaces separate | Glass or blur on the editor, table, or chart; accent used as a wash |
+| `amplify` | Raise one region to the conviction the chrome already has | A new palette, equal loudness on every card, gradient text, a hero |
+| `quiet` | Turn down saturated chrome, extra shadows, and decorative motion | Flattening every weight; growing chrome padding to look calm |
+| `distill` | Strip to the one job. Collapse peer cards into the sovereign region | Cutting undo, names, or recovery; replacing a table with a marketing stack |
+| `first-run` | Empty, no-results, permission, and first-launch states inside the sovereign pane | A blocking tour, a centered pill hero, fake sample numbers as live data |
+| `clarify` | Copy: the next action, the failed thing, the recovery | Jokes on destructive errors; placeholder-as-label; renamed domain terms |
+| `motion` | Motion that explains a state change | Load choreography, pulsing dots, bounce, blur on the data |
+| `critique` | Review. Scores rhythm, optical alignment, and spread on tools and dashboards | A single-context review when two assessments were possible; treating a clean scan as a pass |
+| `audit` | Technical quality: accessibility, performance, platform, shell security | A design verdict in place of a defect |
+| `polish` | Finish a composition that is already right | Smuggling a new composition in through polish |
+| `harden` | Crash restore, dirty documents, i18n, permissions | New features |
+| `adapt` | Compact, regular, and wide windows; light, dark, high contrast | A phone layout |
+| `detect` | Mechanical scan. Exit 0 clean, 2 findings, 1 usage error | Being read as proof the layout is good |
+| `hooks` | Run that scan after UI edits | Auto-ignoring findings |
 
 ## Spatial contract
 

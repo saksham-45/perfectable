@@ -6,7 +6,7 @@
       "name": "perfectable",
       "description": "Lay out and audit IDE and desktop-app UI for LLM coding harnesses",
       "source": "./",
-      "version": "2.0.0"
+      "version": "2.1.0"
     }
   ]
 }

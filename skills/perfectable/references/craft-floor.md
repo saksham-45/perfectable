@@ -20,7 +20,7 @@ Run these together on the built result in one inspection round.
 
 The brief can earn any of these. Reaching for one when the axis is free means you were not deciding — rewrite the element.
 
-- Equal columns for unequal jobs, and one padding value for every relationship.
+- Equal columns for unequal jobs, one padding value for every relationship, and a dashboard made of equal metric cards.
 - Glass, blur, or a decorative shadow on the editor, the table, or the document.
 - The phone body size (17px / `text-lg`) as desktop chrome type.
 - VS Code skin (48px activity bar, icon-only, Inter/Geist, violet accent) when the product is not VS Code.

@@ -100,7 +100,13 @@ In the harness, `/perfectable` with no argument shows a menu. Do not skip that.
 | `layout` | Regions, rhythm, spread, optical alignment |
 | `typeset` | Chrome type versus the document's measure |
 | `materials` | Content, navigation, and transient layers |
-| `critique` | Dual-agent UX review, 17 heuristics scored /68 |
+| `amplify` | Raise one region. Refuses a new palette and a louder card on every tile |
+| `quiet` | Reduce chrome noise. Refuses flattening hierarchy or padding the chrome |
+| `distill` | Strip to one job. Refuses a metric-card wall and cutting recovery |
+| `first-run` | Empty and first launch in the sovereign pane. Refuses a blocking tour |
+| `clarify` | Name the next action. Refuses vague Submit / OK copy |
+| `motion` | State changes only. Refuses load choreography and pulsing dots |
+| `critique` | Dual-agent UX review, 17 heuristics scored /68, including rhythm, alignment, and spread on tools and dashboards |
 | `audit` | Technical + platform + shell security, /24 |
 | `polish` | One batched finish pass; inherits critique P0/P1 |
 | `harden` | Crash restore, dirty documents, a11y, i18n, permissions |

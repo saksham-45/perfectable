@@ -455,6 +455,22 @@ export const RULES = [
     },
   },
   {
+    id: 'metric-card-wall',
+    category: 'layout',
+    severity: 'warning',
+    immediate: true,
+    name: 'Equal metric-card wall',
+    description: 'Three or more equal metric cards. A dashboard has one sovereign reading; supporting numbers are rows or a table.',
+    test(file, content) {
+      const cards = content.match(/class=["'][^"']*\b(?:metric-card|kpi-card|stat-card)\b/gi);
+      if (!cards || cards.length < 3) return [];
+      const equal = /grid-template-columns\s*:\s*(?:repeat\(\s*(?:[3-9]|\d{2,}|auto-fit|auto-fill)\b|(?:1fr\s+){2,}1fr)/;
+      if (!equal.test(content)) return [];
+      const idx = content.search(/metric-card|kpi-card|stat-card/);
+      return [hit(this, file, content, idx < 0 ? 0 : idx)];
+    },
+  },
+  {
     id: 'equal-pane-grid',
     category: 'layout',
     severity: 'warning',

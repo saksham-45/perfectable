@@ -55,7 +55,19 @@ Leftover space goes to the sovereign surface.
 
 Equal columns for unequal jobs are a failed composition. A sidebar, a list, and a message are not three copies of the same card.
 
-## Eight windows
+## Dashboards
+
+A dashboard is a tool surface. Pick one composition before styling. The spatial contract names the sovereign region, where leftover space goes, and at least two spacing roles. What a number means is a product fact and stays in `APP.md`. How the chrome is drawn stays in `CHROME.md`.
+
+| Id | Sovereign | Supporting numbers |
+|---|---|---|
+| `briefing` | One primary figure | A list or table beside it. Not a row of peer tiles |
+| `exception-board` | The anomaly list | Totals in the status line |
+| `ledger` | The table | Filters in the command band. Numeric columns use tabular figures |
+
+A wall of equal metric cards fails. The detector rule is `metric-card-wall` when it can see three or more `metric-card`, `kpi-card`, or `stat-card` elements on an equal track. A dense but legitimate table does not use those classes and does not trip the rule. `critique` still scores rhythm, alignment, and spread when the scan is clean.
+
+## Window grammars
 
 `shape` picks one. `layout` builds that one. Do not blend two in a single window.
 
@@ -69,6 +81,9 @@ Equal columns for unequal jobs are a failed composition. A sidebar, a list, and 
 | `activity-workbench` | Several real peer tools share a window | Inside the active tool. An icon rail is earned by those tools |
 | `object-browser` | Files and other objects | Between groups. A grid is for pictures, not for settings |
 | `settings` | Preferences | Between groups. Search first. Not a dashboard of metric cards |
+| `briefing` | One figure plus the list that explains it | In the figure's column. Supporting numbers are rows |
+| `exception-board` | The exception list | Between severity groups. Totals stay in the status line |
+| `ledger` | The table | Inset, then the row rhythm. Not a card around each row |
 
 Posture comes before padding. Sovereign: hours in the window, dense chrome. Transient: a dialog, larger targets, one job. Daemonic: almost no interface.
 

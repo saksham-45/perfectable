@@ -71,7 +71,7 @@ function fixture(name) {
 {
   const r = run(['version']);
   assert.equal(r.status, 0);
-  assert.match(r.stdout, /2\.0\.0/);
+  assert.match(r.stdout, /2\.1\.0/);
 }
 
 {
@@ -112,6 +112,8 @@ function fixture(name) {
     'slop-editor.html': ['glass-on-content', 'marketing-radius-on-row', 'ios-body-in-chrome', 'centered-hero-in-shell'],
     'slop-three-pane.html': ['equal-pane-grid'],
     'slop-settings.html': ['equal-pane-grid', 'modal-preferences'],
+    'slop-dashboard.html': ['metric-card-wall'],
+    'briefing.html': [],
     'editor-first.html': [],
     'three-pane.html': [],
     'settings.html': [],

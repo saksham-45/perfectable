@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Briefing</title>
+  <style>
+    .window {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      background: #f6f6f6;
+      color: #1c1c1e;
+    }
+    .titlebar { grid-column: 1 / -1; font-size: 13px; }
+    .figure { font-size: 28px; font-variant-numeric: tabular-nums; padding: 20px 24px 8px; }
+    .note { margin: 0 24px 16px; }
+    .row { height: 28px; border-radius: 4px; }
+    table { width: 100%; border-collapse: collapse; }
+    .status { grid-column: 1 / -1; font-size: 12px; font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">Operations</div>
+    <div>
+      <p class="figure">4 open</p>
+      <p class="note">Incidents since 06:00</p>
+    </div>
+    <table>
+      <tr class="row"><td>API latency</td><td>120</td></tr>
+      <tr class="row"><td>Queue depth</td><td>3</td></tr>
+    </table>
+    <div class="status">Updated 09:41</div>
+  </div>
+</body>
+</html>

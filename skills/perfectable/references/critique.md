@@ -85,7 +85,7 @@ Start here. LLM assessment, then detector summary (counts, ids, locations, false
 
 ### Overall impression, what's working (2–3), priority issues (3–5)
 
-Each issue: **[P0–P3] What** · Why it matters · Fix · Suggested command (`$perfectable layout|typeset|materials|adapt|audit|document|harden|polish|shape`).
+Each issue: **[P0–P3] What** · Why it matters · Fix · Suggested command (`$perfectable layout|typeset|materials|amplify|quiet|distill|first-run|clarify|motion|adapt|audit|document|harden|polish|shape`).
 
 P0 blocks the task. P1 before release. P2 next pass. P3 polish. “Would they file a bug?” → at least P1.
 
@@ -143,6 +143,8 @@ Score 0–4. A 4 is genuinely excellent.
 15. **Spatial rhythm** — at least two spacing roles. One padding everywhere scores 0. Rules in [canon/layout-geometry.md](canon/layout-geometry.md).
 16. **Optical alignment** — label rail and control rail, icon to cap height, tabular numbers, scrollbars and focus that do not reflow, OS controls outside the toolbar grid.
 17. **Spread** — air in the sovereign surface or the reading measure. Chrome stays dense. Equal columns for unequal jobs score low.
+
+Heuristics 15–17 apply to tools and to dashboards. On a dashboard, rhythm scores 0 when every gap is one padding value or the surface is a metric-card wall. Spread scores low when leftover space is the gutter between equal cards instead of the sovereign reading (`briefing` figure, `exception-board` list, or `ledger` table). Optical alignment scores the numeric column: tabular figures, one edge, selection that does not change row height.
 
 On every critique, answer in one sentence: where the eye went in the first second, and whether that was the task.
 

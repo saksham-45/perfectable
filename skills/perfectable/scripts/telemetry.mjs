@@ -90,7 +90,7 @@ export function recordEvent(event: Omit<TelemetryEvent, 'timestamp' | 'sessionId
       ...event,
       timestamp: new Date().toISOString(),
       sessionId: getSessionId(),
-      version: '2.0.0',
+      version: '2.1.0',
     };
     
     // Append to telemetry file

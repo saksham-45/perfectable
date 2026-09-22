@@ -1,6 +1,8 @@
 # Compositions
 
-Eight window grammars. `$perfectable shape` picks one. `$perfectable layout` builds that one. Do not blend two grammars in one window.
+Window grammars for tools and dashboards. `$perfectable shape` picks one. `$perfectable layout` builds that one. Do not blend two grammars in one window.
+
+A dashboard is a first-class surface. It is not a website and it is not "no layout." It uses `briefing`, `exception-board`, or `ledger`. A wall of equal metric cards is not one of those. Product facts (what the numbers mean, whose data they are) stay in APP.md. Chrome and the composition stay in CHROME.md and the spatial contract.
 
 Each grammar records: when it fits, what is always visible, what toggles, where focus starts, sizes, where the air goes, and what to refuse. Lengths below are composition sizes, not control metrics. Control metrics stay in the platform pack.
 
@@ -93,3 +95,36 @@ A searchable form for preferences. Lineage: System Settings, GNOME Settings.
 - Sizes: groups are inset from the window. Controls use the platform's standard or compact density for a transient window, not the editor's tightest row, and not a phone row.
 - Air: the group role between groups. Inside a group, the control role.
 - Refuse: a dashboard of metric cards, a modal over the editor, nested cards. Preferences are a window or a panel. The detector rule is `modal-preferences`.
+
+## briefing
+
+One reading dominates a dashboard. Lineage: a status board with a primary figure and a supporting list, not a tile farm.
+
+- Always visible: the primary figure and the list or table that explains it.
+- Toggles: the time range in the command band, an inspector for the selected row.
+- Focus starts on the list, or on the range control if the job is comparing periods.
+- Sizes: the figure is one block, not a row of peers. The list uses the platform row metric.
+- Air: in the figure's column and in the list's reading, not as equal gutters between tiles.
+- Refuse: three or more equal `metric-card` tiles. The detector rule is `metric-card-wall`. Supporting numbers are rows.
+
+## exception-board
+
+The anomalies are the product. Totals are status, not peers. Lineage: an incidents or alerts desk.
+
+- Always visible: the exception list, ordered by severity or age.
+- Toggles: filters in the command band. A detail pane opens for the selected exception.
+- Focus starts on the first exception, or on the empty-state action when the list is clear.
+- Sizes: the list takes the leftover width. Counts sit in the status line with tabular figures.
+- Air: between severity groups (the group role). Rows stay dense.
+- Refuse: a hero count that is larger than the list, a card per incident, a centered "all clear" celebration that hides the filter.
+
+## ledger
+
+The table is the dashboard. Lineage: a log, a billing table, a query result.
+
+- Always visible: column headers, the rows, and the filter or search in the command band.
+- Toggles: column chooser, a detail drawer for the selected row.
+- Focus starts in the table.
+- Sizes: the table uses the pane. Numeric columns align on tabular figures. Do not cap the table at a prose measure.
+- Air: the inset inside the window, then the row rhythm. Not a card around every row.
+- Refuse: replacing the table with equal summary cards, glass on the grid, phone-sized header type.

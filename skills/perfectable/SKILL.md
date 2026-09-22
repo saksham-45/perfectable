@@ -1,19 +1,17 @@
 ---
 name: perfectable
 description: >
-  Audit, critique, shape, lay out, typeset, and finish IDE and desktop-app UI
+  Lay out, refine, critique, and audit IDE, desktop-tool, and dashboard UI
   (Electron, Tauri, native macOS/Windows/Linux). Use when building or reviewing
-  a code editor, workbench, desktop shell, titlebar, menu bar, command palette,
-  file tree, settings window, or native windowing; when placing regions, spacing,
-  alignment, density, type, or materials in a desktop window; when an LLM-built
-  desktop app feels like a website; or when the user runs /perfectable. Catches
-  web-shaped chrome, flat spacing, missing keyboard paths, VS Code clones, and
-  platform-HIG drift. Not for websites, landing pages, or mobile-only apps
-  (use impeccable).
-argument-hint: "[init|document|shape|layout|typeset|materials|critique|audit|polish|harden|adapt|hooks|detect] [target]"
+  a code editor, workbench, desktop shell, dashboard, titlebar, menu bar,
+  command palette, file tree, or settings window; when placing regions, spacing,
+  alignment, density, type, or materials; when a tool or dashboard feels like a
+  website or a wall of equal metric cards; or when the user runs /perfectable.
+  Not for websites, landing pages, or mobile-only apps (use impeccable).
+argument-hint: "[init|document|shape|layout|typeset|materials|amplify|quiet|distill|first-run|clarify|motion|critique|audit|polish|harden|adapt|hooks|detect] [target]"
 metadata:
-  short-description: Desktop UI craft and layout
-  version: "2.0.0"
+  short-description: Desktop and dashboard UI craft
+  version: "2.1.0"
 ---
 
 # Perfectable
@@ -54,6 +52,12 @@ Operate-mode craft for IDEs, editors, and desktop apps. The editor is the produc
 | `layout [target]` | Regions, rhythm, spread, optical alignment | [references/layout.md](references/layout.md) |
 | `typeset [target]` | Chrome type versus document measure | [references/typeset.md](references/typeset.md) |
 | `materials [target]` | Layers, tokens, elevation | [references/materials.md](references/materials.md) |
+| `amplify [target]` | Raise one region; do not invent a new system | [references/amplify.md](references/amplify.md) |
+| `quiet [target]` | Remove chrome noise without flattening hierarchy | [references/quiet.md](references/quiet.md) |
+| `distill [target]` | Strip to the one job; collapse a metric wall | [references/distill.md](references/distill.md) |
+| `first-run [target]` | Empty and first-launch states in the sovereign pane | [references/first-run.md](references/first-run.md) |
+| `clarify [target]` | Tool and dashboard copy; next action is named | [references/clarify.md](references/clarify.md) |
+| `motion [target]` | State-change motion only | [references/motion.md](references/motion.md) |
 | `critique [target]` | Dual-agent UX review with scores | [references/critique.md](references/critique.md) |
 | `audit [target]` | Technical + platform checks | [references/audit.md](references/audit.md) |
 | `polish [target]` | Final quality pass; inherit critique P0/P1 | [references/polish.md](references/polish.md) |
@@ -62,7 +66,7 @@ Operate-mode craft for IDEs, editors, and desktop apps. The editor is the produc
 | `hooks …` | Install or configure the detector hook | [references/hooks.md](references/hooks.md) |
 | `detect [path]` | Run the deterministic scanner | `scripts/detect.mjs` |
 
-Routing: explicit or clearly implied command → load that reference (and the platform file `context.mjs` named). A spacing, alignment, empty-space, or hierarchy complaint loads [references/layout.md](references/layout.md) before other chrome work. Otherwise treat as general chrome work: inspect the target, load craft-floor, edit, then run the detector on touched files. Missing APP.md on a **new** app routes through `init` first; a narrow refinement of existing chrome proceeds and offers `init` afterward.
+Routing: explicit or clearly implied command → load that reference (and the platform file `context.mjs` named). A spacing, alignment, empty-space, or hierarchy complaint loads [references/layout.md](references/layout.md) before other chrome work. A dashboard is never routed as a website and never as "no layout": `shape` picks `briefing`, `exception-board`, or `ledger` and writes the spatial contract before styling. Otherwise treat as general chrome work: inspect the target, load craft-floor, edit, then run the detector on touched files. Missing APP.md on a **new** app routes through `init` first; a narrow refinement of existing chrome proceeds and offers `init` afterward. Product facts stay in APP.md. Visual decisions stay in CHROME.md.
 
 After `init` writes APP.md, resume without rerunning `context.mjs`; `init` loads the platform reference itself.
 

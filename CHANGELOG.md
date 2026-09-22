@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.0
+
+Dashboards are a surface of their own, and the refine passes a tool window was missing now exist.
+
+- Compositions `briefing`, `exception-board`, and `ledger`. A wall of equal metric cards is not a dashboard composition. `shape` requires a spatial contract before styling. Product facts stay in `APP.md`; chrome stays in `CHROME.md`.
+- Refine commands: `amplify`, `quiet`, `distill`, `first-run`, `clarify`, `motion`. Each says what it is for and what it refuses.
+- Detector rule `metric-card-wall`. Accepted sample: `skills/perfectable/fixtures/briefing.html`. Failing sample: `slop-dashboard.html`.
+- Critique heuristics for rhythm, alignment, and spread explicitly cover dashboards.
+- Public command list in `docs/commands.md` names every pass and its refusals.
+
 ## 2.0.0
 
 Perfectable can now lay out a desktop window, not only reject a website in a frame.

@@ -38,6 +38,8 @@ Pick one thesis and defend it. Do not hybridize.
 
 Then pick one composition from [canon/compositions.md](canon/compositions.md). The five theses map to the five compositions in the table. Use `three-pane` for a workspace whose job is a collection plus one open item, `object-browser` for files and other navigable objects, and `settings` only for a preferences window. One composition per window.
 
+A dashboard is not filed as a website and not left without a layout. Pick one of `briefing`, `exception-board`, or `ledger`. Do not pick a wall of equal metric cards. The spatial contract is required before any styling: sovereign region, where leftover space goes, and at least two spacing roles. What the numbers mean stays in APP.md. How the chrome looks stays in CHROME.md.
+
 Load [canon/layout-geometry.md](canon/layout-geometry.md) and write the spatial contract. It is required. A brief without it is incomplete.
 
 - Sovereign surface

@@ -43,7 +43,25 @@ User request
     │   → $perfectable typeset [target]
     │
     ├─ "Color" / "glass" / "too loud" / "too flat"
-    │   → $perfectable materials [target]
+    │   → $perfectable materials [target], or $perfectable quiet when the chrome is already loud
+    │
+    ├─ "Dashboard" / "metrics" / "KPI cards"
+    │   → $perfectable shape, composition briefing | exception-board | ledger, spatial contract before CSS
+    │
+    ├─ "Make this one number matter" / "too timid"
+    │   → $perfectable amplify [target]
+    │
+    ├─ "Too much chrome" / "simplify"
+    │   → $perfectable distill [target]
+    │
+    ├─ "Empty state" / "first run"
+    │   → $perfectable first-run [target]
+    │
+    ├─ "The labels are vague"
+    │   → $perfectable clarify [target]
+    │
+    ├─ "Animate this"
+    │   → $perfectable motion [target]
     │
     ├─ "Polish/finish this UI"
     │   → $perfectable polish [target] (after critique/audit)
