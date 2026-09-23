@@ -6,6 +6,9 @@ struct NativeApp: App {
         DocumentGroup(newDocument: NativeAppDocument()) { file in
             ContentView(document: file.$document)
         }
+        Settings {
+            SettingsView()
+        }
         .commands {
             CommandGroup(replacing: .newItem) {
                 Button("New Document") {

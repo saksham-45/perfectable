@@ -1,6 +1,6 @@
 {
   "name": "perfectable",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Layout and quality gate for AI-built desktop apps. Spatial craft, deterministic detector, dual-agent critique, scored audit.",
   "type": "module",
   "bin": {

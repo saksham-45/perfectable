@@ -8,6 +8,8 @@ export const PLATFORMS_DIR = path.join(SKILL_DIR, 'platforms');
 export const UI_EXTS = new Set([
   '.tsx', '.jsx', '.ts', '.js', '.mjs', '.cjs', '.vue', '.svelte',
   '.css', '.scss', '.sass', '.less', '.html', '.json', '.toml',
+  '.swift', '.rs', '.qml', '.ui', '.dart', '.xaml', '.cs', '.vala', '.blp',
+  '.cpp', '.h', '.c',
 ]);
 
 export const SKIP_DIRS = new Set([
@@ -103,6 +105,7 @@ export function isUiFile(filePath) {
   const ext = path.extname(filePath).toLowerCase();
   const base = path.basename(filePath);
   if (base === 'tauri.conf.json' || base === 'tauri.conf.json5') return true;
+  if (base === 'Package.swift') return false;
   return UI_EXTS.has(ext);
 }
 
@@ -150,9 +153,18 @@ export function inferProject(root) {
     fs.existsSync(path.join(root, 'Package.resolved'));
   const hasWinUI = fs.readdirSync(root).some(f => f.endsWith('.csproj') || f.endsWith('.sln')) ||
     fs.existsSync(path.join(root, 'Package.appxmanifest'));
-  const hasGTK = fs.existsSync(path.join(root, 'meson.build')) || 
-    fs.existsSync(path.join(root, 'CMakeLists.txt')) && 
-    fs.readFileSync(path.join(root, 'CMakeLists.txt'), 'utf8').includes('gtk');
+  const cmakePath = path.join(root, 'CMakeLists.txt');
+  const mesonPath = path.join(root, 'meson.build');
+  const cargoPath = path.join(root, 'Cargo.toml');
+  const pubspecPath = path.join(root, 'pubspec.yaml');
+  const readIf = (p) => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '');
+  const cmake = readIf(cmakePath);
+  const hasGTK = fs.existsSync(mesonPath) && /gtk/i.test(readIf(mesonPath))
+    || /gtk/i.test(cmake);
+  const hasQt = /find_package\s*\(\s*Qt|Qt6|Qt5/i.test(cmake)
+    || fs.existsSync(path.join(root, 'CMakeLists.txt')) && /\.qml\b/.test(cmake);
+  const hasEgui = /egui/i.test(readIf(cargoPath));
+  const hasFlutter = /^name:/m.test(readIf(pubspecPath)) && /flutter:/m.test(readIf(pubspecPath));
   
   const appPath = path.join(root, 'APP.md');
   let app = '';
@@ -213,6 +225,9 @@ export function inferProject(root) {
     else if (hasSwiftUI) shell = 'swiftui';
     else if (hasWinUI) shell = 'winui';
     else if (hasGTK) shell = 'gtk';
+    else if (hasEgui) shell = 'egui';
+    else if (hasQt) shell = 'qt';
+    else if (hasFlutter) shell = 'flutter';
     else shell = 'unknown';
   }
   
@@ -220,7 +235,7 @@ export function inferProject(root) {
   const input = heading('Input') || 'keyboard-first';
   const personas = parsePersonasFromApp(app);
 
-  const desktop = hasElectron || hasTauri || hasSwiftUI || hasWinUI || hasGTK || shell === 'native';
+  const desktop = hasElectron || hasTauri || hasSwiftUI || hasWinUI || hasGTK || hasEgui || hasQt || hasFlutter || shell === 'native';
 
   return {
     platform,
@@ -232,6 +247,9 @@ export function inferProject(root) {
     hasSwiftUI,
     hasWinUI,
     hasGTK,
+    hasEgui,
+    hasQt,
+    hasFlutter,
     desktop,
     appPath: fs.existsSync(appPath) ? appPath : null,
     chromePath: fs.existsSync(path.join(root, 'CHROME.md')) ? path.join(root, 'CHROME.md') : null,

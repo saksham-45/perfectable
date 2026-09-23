@@ -1,6 +1,6 @@
 {
   "name": "perfectable",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Lay out, audit, and harden IDE and desktop-app UI (Electron, Tauri, native). Places regions and spacing, and catches web-shaped chrome and platform drift.",
   "author": {
     "name": "saksham-45",

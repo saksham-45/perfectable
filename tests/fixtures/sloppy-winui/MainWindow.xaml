@@ -1,0 +1,7 @@
+<Window Background="#7C3AED">
+    <StackPanel>
+        <Button Content="Open"/>
+        <TextBox x:Name="Editor"/>
+        <ContentDialog Title="Settings"/>
+    </StackPanel>
+</Window>

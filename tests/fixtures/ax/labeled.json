@@ -1,0 +1,14 @@
+{
+  "role": "AXApplication",
+  "title": "Editor",
+  "children": [
+    { "role": "AXMenuBar", "title": "Menu", "children": [] },
+    {
+      "role": "AXWindow",
+      "title": "Untitled",
+      "children": [
+        { "role": "AXButton", "title": "Save", "description": "" }
+      ]
+    }
+  ]
+}

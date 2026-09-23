@@ -14,6 +14,7 @@ import {
   snippetAt,
   walkFiles,
 } from './lib.mjs';
+import { NATIVE_PROJECT_RULES, NATIVE_RULES } from './rules-native.mjs';
 
 function finish(code) {
   process.stdout.write('', () => process.exit(code));
@@ -54,6 +55,7 @@ function matchesAll(content, regexes) {
 }
 
 export const RULES = [
+  ...NATIVE_RULES,
   {
     id: 'electron-node-integration',
     category: 'platform',
@@ -486,6 +488,7 @@ export const RULES = [
 ];
 
 const PROJECT_RULES = [
+  ...NATIVE_PROJECT_RULES,
   {
     id: 'missing-titlebar-drag',
     category: 'platform',
@@ -694,7 +697,7 @@ function counts(findings) {
 export async function detectCli(argv = process.argv.slice(2)) {
   const args = argv.filter((a) => a !== '--');
   if (args.includes('--help') || args.includes('-h')) {
-    process.stdout.write(`Usage: detect.mjs [--json] [--immediate] [--no-config] [--format=json|junit|sarif|markdown] [path ...]\nExit 0 clean, 2 findings, 1 error.\n`);
+    process.stdout.write(`Usage: detect.mjs [--json] [--immediate] [--no-config] [--format=json|junit|sarif|markdown] [path ...]\nExit 0 clean, 2 findings, 3 toolkit not scanned, 1 error.\n`);
     finish(0);
     return;
   }
@@ -734,14 +737,32 @@ export async function detectCli(argv = process.argv.slice(2)) {
   const files = loadTargets(root, targets);
   
   if (!files.length) {
-    // Native projects (SwiftUI, WinUI, GTK) may have no web UI files - that's OK
-    if (ctx.desktop && (ctx.shell === 'swiftui' || ctx.shell === 'winui' || ctx.shell === 'gtk' || ctx.shell === 'native')) {
-      if (format === 'json') {
-        process.stdout.write(JSON.stringify({ ok: true, findings: [], counts: { error: 0, warning: 0, advisory: 0 } }, null, 2) + '\n');
+    const nativeShell = ['swiftui', 'winui', 'gtk', 'egui', 'qt', 'flutter', 'native'].includes(ctx.shell);
+    if (ctx.desktop && nativeShell) {
+      const payload = {
+        ok: false,
+        coverage: 'uncovered',
+        shell: ctx.shell,
+        files: 0,
+        findings: [],
+        counts: { error: 0, warning: 0, advisory: 0 },
+        reason: `No ${ctx.shell} sources were scanned. A clean result here would be a false green.`,
+      };
+      if (format === 'json' || format === 'sarif') {
+        process.stdout.write((format === 'sarif' ? generateSARIF([{
+          id: 'toolkit-uncovered',
+          name: 'Toolkit not scanned',
+          category: 'platform',
+          severity: 'error',
+          file: ctx.shell,
+          line: 1,
+          snippet: ctx.shell,
+          message: payload.reason,
+        }], projectRoot) : JSON.stringify(payload, null, 2)) + '\n');
       } else {
-        process.stdout.write(colorize('perfectable: clean (native project, no web UI files)\n', GREEN));
+        process.stderr.write(colorize('perfectable: uncovered', RED) + ` — ${payload.reason}\n`);
       }
-      finish(0);
+      finish(3);
       return;
     }
     process.stderr.write(colorize('Error: ', RED) + 'No UI files found to scan. Check path or ensure files have supported extensions (.tsx, .jsx, .ts, .js, .css, .html, .vue, .svelte, .json, .toml)\n');
@@ -756,7 +777,14 @@ export async function detectCli(argv = process.argv.slice(2)) {
   
   let output = '';
   if (format === 'json') {
-    output = JSON.stringify({ ok: findings.length === 0, findings, counts: counts(findings) }, null, 2);
+    output = JSON.stringify({
+      ok: findings.length === 0,
+      coverage: 'scanned',
+      shell: ctx.shell,
+      files: files.length,
+      findings,
+      counts: counts(findings),
+    }, null, 2);
   } else if (format === 'junit') {
     output = generateJUnit(findings);
   } else if (format === 'sarif') {

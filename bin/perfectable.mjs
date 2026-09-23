@@ -19,7 +19,8 @@ Usage:
   perfectable uninstall [options]
   perfectable update [options]
   perfectable link [options]
-  perfectable detect [--json] [--immediate] [path ...]
+  perfectable detect [--json] [--immediate] [--format=sarif] [path ...]
+  perfectable prove --ax <tree.json> | --pid <n> [--screenshot out.png]
   perfectable context
   perfectable hooks <on|off|status|ignore-rule|ignore-file|reset>
   perfectable providers
@@ -85,6 +86,8 @@ if (cmd === 'providers') {
 
 if (cmd === 'detect') {
   runNode(path.join(SKILL_SRC, 'scripts', 'detect.mjs'), rest, cwd);
+} else if (cmd === 'prove') {
+  runNode(path.join(SKILL_SRC, 'scripts', 'prove.mjs'), rest, cwd);
 } else if (cmd === 'context') {
   runNode(path.join(SKILL_SRC, 'scripts', 'context.mjs'), rest, cwd);
 } else if (cmd === 'hooks') {

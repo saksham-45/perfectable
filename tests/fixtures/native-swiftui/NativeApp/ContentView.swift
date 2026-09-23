@@ -22,7 +22,6 @@ struct NativeAppDocument: FileDocument {
 
 struct ContentView: View {
     @Binding var document: NativeAppDocument
-    @State private var showSettings = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -37,8 +36,6 @@ struct ContentView: View {
                 Button("Save As...") { saveDocumentAs() }
                     .keyboardShortcut("s", modifiers: [.command, .shift])
                 Spacer()
-                Button("Settings...") { showSettings = true }
-                    .keyboardShortcut(",", modifiers: .command)
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
@@ -50,10 +47,6 @@ struct ContentView: View {
                 .font(.system(.body, design: .monospaced))
                 .frame(minWidth: 600, minHeight: 400)
                 .padding()
-        }
-        .sheet(isPresented: $showSettings) {
-            SettingsView()
-                .frame(width: 480, height: 400)
         }
     }
 

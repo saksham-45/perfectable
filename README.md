@@ -25,7 +25,7 @@ Perfectable puts a loop around the agent:
 1. **Pinned truth** — `APP.md` and `CHROME.md` beat model taste. Posture and composition are part of that truth.
 2. **Layout** — a spatial contract before CSS: which of eight window types this is, where the air goes, and at least two spacing roles. See [docs/layout.md](docs/layout.md).
 3. **Craft floor** — density, keyboard, native menus, dirty documents. Judgment the scanner cannot catch.
-4. **Deterministic detector** — Electron isolation, missing drag regions, web file pickers, glass on the editor, equal columns, phone-sized chrome type, VS Code clones, and more.
+4. **Deterministic detector** — Electron isolation, and the same class of miss on SwiftUI, egui, Qt, GTK, WinUI, and Flutter: unvirtualized lists, settings shoved in a dialog, frameless windows, hardcoded chrome. A toolkit that was not actually read exits 3. It does not exit 0. CI uses `--format=sarif`. A running macOS window is scored with `perfectable prove` (accessibility tree, optional screenshot).
 5. **Dual-agent critique** — 17 heuristics, including rhythm, alignment, and spread.
 6. **Scored audit** — a11y, performance, theming, platform HIG, workbench integrity, shell security.
 7. **Edit hook** — findings come back into the agent after UI writes, instead of an open-ended "polish until good" loop.

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.2.0
+
+Native toolkits are scanned. A project with no readable sources is uncovered (exit 3), not clean.
+
+- Swift, Rust, QML, Dart, XAML, C, and C# are detector inputs.
+- Rules for SwiftUI, egui, Qt, Flutter, GTK, and WinUI: unvirtualized lists, settings-in-a-sheet, frameless windows, hardcoded chrome, missing menus.
+- Project rules for system Open, dirty title, and Escape dismiss.
+- `perfectable prove` scores an accessibility tree (`--ax` or a live macOS `--pid`). It does not report clean when it could not look.
+- Fixtures: `sloppy-swiftui`, `sloppy-egui`, `sloppy-qt`, `sloppy-flutter`, `sloppy-gtk`, `sloppy-winui`, `uncovered-swift`.
+
 ## 2.1.0
 
 Dashboards are a surface of their own, and the refine passes a tool window was missing now exist.

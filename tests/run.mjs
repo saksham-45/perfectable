@@ -71,7 +71,7 @@ function fixture(name) {
 {
   const r = run(['version']);
   assert.equal(r.status, 0);
-  assert.match(r.stdout, /2\.1\.0/);
+  assert.match(r.stdout, /2\.2\.0/);
 }
 
 {
@@ -147,6 +147,44 @@ function fixture(name) {
   const f = fixture('native-winui');
   const r = run(['detect', '--json', '.'], f);
   assert.equal(r.status, 0, `Native WinUI should pass: ${r.stdout}`);
+}
+
+{
+  const f = fixture('uncovered-swift');
+  const r = run(['detect', '--json', '.'], f);
+  assert.equal(r.status, 3, `Empty Swift package must not scan clean: ${r.stdout}`);
+  const json = JSON.parse(r.stdout);
+  assert.equal(json.coverage, 'uncovered');
+}
+
+{
+  const cases = {
+    'sloppy-swiftui': ['swiftui-scroll-unvirtualized', 'swiftui-settings-sheet', 'swiftui-fixed-type', 'swiftui-no-commands', 'no-native-open', 'no-dirty-indicator', 'no-escape-dismiss'],
+    'sloppy-egui': ['egui-scroll-unvirtualized', 'egui-hardcoded-accent', 'egui-no-menu'],
+    'sloppy-qt': ['qt-frameless-no-drag', 'qt-repeater-not-list', 'qt-no-menubar'],
+    'sloppy-flutter': ['flutter-unvirtualized-list'],
+    'sloppy-gtk': ['gtk-css-hardcoded'],
+    'sloppy-winui': ['winui-hardcoded-chrome', 'winui-settings-dialog', 'no-native-open', 'no-dirty-indicator'],
+  };
+  for (const [name, expected] of Object.entries(cases)) {
+    const r = run(['detect', '--json', '.'], fixture(name));
+    assert.equal(r.status, 2, `${name} should fail: ${r.stdout}\n${r.stderr}`);
+    const ids = JSON.parse(r.stdout).findings.map((f) => f.id);
+    for (const id of expected) assert.ok(ids.includes(id), `${name} missing ${id}: ${ids.join(',')}`);
+  }
+}
+
+{
+  const unlabeled = run(['prove', '--ax', path.join(PKG_ROOT, 'tests', 'fixtures', 'ax', 'unlabeled.json')]);
+  assert.equal(unlabeled.status, 2, unlabeled.stdout);
+  const bad = JSON.parse(unlabeled.stdout).findings.map((f) => f.id);
+  assert.ok(bad.includes('ax-unlabeled-button'));
+  assert.ok(bad.includes('ax-untitled-window'));
+  assert.ok(bad.includes('ax-no-menubar'));
+  const labeled = run(['prove', '--ax', path.join(PKG_ROOT, 'tests', 'fixtures', 'ax', 'labeled.json')]);
+  assert.equal(labeled.status, 0, labeled.stdout);
+  const refused = run(['prove']);
+  assert.equal(refused.status, 3);
 }
 
 {

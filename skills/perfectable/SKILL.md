@@ -11,7 +11,7 @@ description: >
 argument-hint: "[init|document|shape|layout|typeset|materials|amplify|quiet|distill|first-run|clarify|motion|critique|audit|polish|harden|adapt|hooks|detect] [target]"
 metadata:
   short-description: Desktop and dashboard UI craft
-  version: "2.1.0"
+  version: "2.2.0"
 ---
 
 # Perfectable
@@ -64,7 +64,8 @@ Operate-mode craft for IDEs, editors, and desktop apps. The editor is the produc
 | `harden [target]` | Crash, dirty state, a11y, i18n, permissions | [references/harden.md](references/harden.md) |
 | `adapt [target]` | Window sizes, HiDPI, compact/full chrome | [references/adapt.md](references/adapt.md) |
 | `hooks …` | Install or configure the detector hook | [references/hooks.md](references/hooks.md) |
-| `detect [path]` | Run the deterministic scanner | `scripts/detect.mjs` |
+| `detect [path]` | Scan the project. Exit 3 if a native toolkit was not actually read | `scripts/detect.mjs` |
+| `prove` | Score a live macOS accessibility tree, or `--ax tree.json` | `scripts/prove.mjs` |
 
 Routing: explicit or clearly implied command → load that reference (and the platform file `context.mjs` named). A spacing, alignment, empty-space, or hierarchy complaint loads [references/layout.md](references/layout.md) before other chrome work. A dashboard is never routed as a website and never as "no layout": `shape` picks `briefing`, `exception-board`, or `ledger` and writes the spatial contract before styling. Otherwise treat as general chrome work: inspect the target, load craft-floor, edit, then run the detector on touched files. Missing APP.md on a **new** app routes through `init` first; a narrow refinement of existing chrome proceeds and offers `init` afterward. Product facts stay in APP.md. Visual decisions stay in CHROME.md.
 
@@ -79,7 +80,9 @@ node <skill-base-dir>/scripts/detect.mjs [--json] [--immediate] [path]
 # or: npx perfectable detect [--json] [--immediate] [path]
 ```
 
-Exit 0 = clean, 2 = findings, 1 = usage/error. `--immediate` is the per-edit tier (mechanical rules only). A clean scan is not a quality certificate; craft-floor and critique still apply.
+Exit 0 = scanned and clean, 2 = findings, 3 = toolkit not scanned or AX not available, 1 = usage/error. Exit 0 on a SwiftUI, egui, Qt, GTK, WinUI, or Flutter tree that was never opened is a bug. `--format=sarif` is the CI path. `--immediate` is the per-edit tier. A clean scan is not a quality certificate.
+
+When generating chrome, read [references/few-shots.md](references/few-shots.md) before writing the first window.
 
 ## Platform
 

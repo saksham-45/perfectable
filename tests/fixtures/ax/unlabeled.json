@@ -1,0 +1,13 @@
+{
+  "role": "AXApplication",
+  "title": "Sloppy",
+  "children": [
+    {
+      "role": "AXWindow",
+      "title": "",
+      "children": [
+        { "role": "AXButton", "title": "", "description": "" }
+      ]
+    }
+  ]
+}
