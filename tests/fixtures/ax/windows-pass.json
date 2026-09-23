@@ -1,0 +1,10 @@
+{
+  "role": "ControlType.Window",
+  "title": "Untitled",
+  "children": [
+    { "role": "ControlType.MenuBar", "title": "Menu", "children": [] },
+    { "role": "ControlType.Button", "title": "Minimize", "children": [] },
+    { "role": "ControlType.Button", "title": "Maximize", "children": [] },
+    { "role": "ControlType.Button", "title": "Close", "children": [] }
+  ]
+}

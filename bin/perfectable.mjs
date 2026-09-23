@@ -20,7 +20,7 @@ Usage:
   perfectable update [options]
   perfectable link [options]
   perfectable detect [--json] [--immediate] [--format=sarif] [path ...]
-  perfectable prove --ax <tree.json> | --pid <n> [--screenshot out.png]
+  perfectable prove (--ax <tree.json> | --pid <n> | --launch <cmd>) [--screenshot out.png] [--golden file]
   perfectable context
   perfectable hooks <on|off|status|ignore-rule|ignore-file|reset>
   perfectable providers

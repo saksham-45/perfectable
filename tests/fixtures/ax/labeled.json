@@ -7,7 +7,8 @@
       "role": "AXWindow",
       "title": "Untitled",
       "children": [
-        { "role": "AXButton", "title": "Save", "description": "" }
+        { "role": "AXButton", "title": "Save", "description": "" },
+        { "role": "AXButton", "title": "Close", "description": "" }
       ]
     }
   ]

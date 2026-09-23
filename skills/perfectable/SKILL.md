@@ -11,7 +11,7 @@ description: >
 argument-hint: "[init|document|shape|layout|typeset|materials|amplify|quiet|distill|first-run|clarify|motion|critique|audit|polish|harden|adapt|hooks|detect] [target]"
 metadata:
   short-description: Desktop and dashboard UI craft
-  version: "2.2.0"
+  version: "2.3.0"
 ---
 
 # Perfectable
@@ -65,7 +65,7 @@ Operate-mode craft for IDEs, editors, and desktop apps. The editor is the produc
 | `adapt [target]` | Window sizes, HiDPI, compact/full chrome | [references/adapt.md](references/adapt.md) |
 | `hooks …` | Install or configure the detector hook | [references/hooks.md](references/hooks.md) |
 | `detect [path]` | Scan the project. Exit 3 if a native toolkit was not actually read | `scripts/detect.mjs` |
-| `prove` | Score a live macOS accessibility tree, or `--ax tree.json` | `scripts/prove.mjs` |
+| `prove` | Score the running app (macOS AX, Windows UIA, Linux AT-SPI) or `--ax tree.json`. `--golden` is perceptual. | `scripts/prove.mjs` |
 
 Routing: explicit or clearly implied command → load that reference (and the platform file `context.mjs` named). A spacing, alignment, empty-space, or hierarchy complaint loads [references/layout.md](references/layout.md) before other chrome work. A dashboard is never routed as a website and never as "no layout": `shape` picks `briefing`, `exception-board`, or `ledger` and writes the spatial contract before styling. Otherwise treat as general chrome work: inspect the target, load craft-floor, edit, then run the detector on touched files. Missing APP.md on a **new** app routes through `init` first; a narrow refinement of existing chrome proceeds and offers `init` afterward. Product facts stay in APP.md. Visual decisions stay in CHROME.md.
 

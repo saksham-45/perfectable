@@ -1,0 +1,8 @@
+{
+  "role": "frame",
+  "title": "Untitled",
+  "children": [
+    { "role": "menu bar", "title": "Menu", "children": [] },
+    { "role": "push button", "title": "Close", "description": "Close" }
+  ]
+}

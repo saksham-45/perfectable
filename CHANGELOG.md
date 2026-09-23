@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.3.0
+
+The running app is the lab, on every desktop.
+
+- `prove --pid` dumps macOS AX, Windows UI Automation, or Linux AT-SPI. It does not stop at macOS.
+- `prove --launch` starts the built app, waits, then dumps that process.
+- Screenshots: `screencapture` on macOS, `System.Drawing` on Windows, `grim` / `gnome-screenshot` / `scrot` / `import` on Linux.
+- `--golden` is a perceptual compare (32×32 MAE plus dHash). A re-encoded PNG of the same picture passes. A different picture does not.
+- The accessibility score requires a menu bar, a window title, named buttons, and a Close / Minimize / Maximize control. That is the compiled-window HIG check, not a source regex.
+
 ## 2.2.0
 
 Native toolkits are scanned. A project with no readable sources is uncovered (exit 3), not clean.

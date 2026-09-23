@@ -71,7 +71,7 @@ function fixture(name) {
 {
   const r = run(['version']);
   assert.equal(r.status, 0);
-  assert.match(r.stdout, /2\.2\.0/);
+  assert.match(r.stdout, /2\.3\.0/);
 }
 
 {
@@ -185,6 +185,23 @@ function fixture(name) {
   assert.equal(labeled.status, 0, labeled.stdout);
   const refused = run(['prove']);
   assert.equal(refused.status, 3);
+  for (const name of ['windows-pass.json', 'linux-pass.json']) {
+    const r = run(['prove', '--ax', path.join(PKG_ROOT, 'tests', 'fixtures', 'ax', name)]);
+    assert.equal(r.status, 0, `${name}: ${r.stdout}`);
+  }
+}
+
+{
+  const { encodePng, comparePng } = await import('../skills/perfectable/scripts/image-diff.mjs');
+  const red = encodePng(16, 16, () => [200, 20, 20]);
+  const redder = encodePng(32, 16, () => [208, 24, 22]);
+  const blue = encodePng(16, 16, () => [20, 20, 200]);
+  const same = comparePng(red, red);
+  const near = comparePng(red, redder);
+  const far = comparePng(red, blue);
+  assert.equal(same.match, true, JSON.stringify(same));
+  assert.equal(near.match, true, JSON.stringify(near));
+  assert.equal(far.match, false, JSON.stringify(far));
 }
 
 {
