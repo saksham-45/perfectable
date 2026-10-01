@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.4.0
+
+Layout geometry, Fluent 2 desktop rules, and prescriptive recipes across native frameworks.
+
+- **Layout Geometry Engine (`prove --ax`)**: Spatial math on bounding boxes extracts real physical layout defects. Catches overlapping sibling controls (`layout-overlapping-controls`), sub-16px click targets (`layout-sub-minimum-target`), touch-bloated rows in desktop tools (`layout-excessive-row-height`), and ragged zig-zag form inputs (`layout-form-zigzag`).
+- **Windows Fluent 2 Rules**: Enforces native Windows desktop craft on WinUI 3 / WPF. Catches web pill buttons on desktop controls (`winui-web-pill-radius`), odd non-rhythm margins (`winui-hardcoded-margins`), unvirtualized `<ScrollViewer><StackPanel>` lists (`winui-unvirtualized-scroll`), zig-zag form rows (`winui-zigzag-form`), unconstrained windows (`winui-missing-min-size`), and unbound dialogs (`winui-missing-dialog-bindings`).
+- **Qt Quick / QML Rules**: Catches web pill buttons in desktop toolbars (`qt-hardcoded-pill-radius`) and missing Alt keyboard mnemonics on menus (`qt-missing-mnemonics`).
+- **Prescriptive Framework Recipes**: Side-by-side bad vs. clean code recipes for Windows XAML (`references/recipes/windows-xaml.md`), Qt Quick (`references/recipes/qt-qml.md`), and Electron/Tauri (`references/recipes/electron-tauri.md`), linked directly into the LLM guide.
+- **Fixtures**: `clean-xaml-layout`, `sloppy-xaml-layout`, `clean-qt`, `sloppy-qt-pill`, `layout-clean.json`, and `layout-sloppy.json`.
+
 ## 2.3.0
 
 The running app is the lab, on every desktop.

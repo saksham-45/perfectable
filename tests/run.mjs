@@ -71,7 +71,7 @@ function fixture(name) {
 {
   const r = run(['version']);
   assert.equal(r.status, 0);
-  assert.match(r.stdout, /2\.3\.0/);
+  assert.match(r.stdout, /2\.4\.0/);
 }
 
 {

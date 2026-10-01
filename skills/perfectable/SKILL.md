@@ -11,7 +11,7 @@ description: >
 argument-hint: "[init|document|shape|layout|typeset|materials|amplify|quiet|distill|first-run|clarify|motion|critique|audit|polish|harden|adapt|hooks|detect] [target]"
 metadata:
   short-description: Desktop and dashboard UI craft
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # Perfectable
