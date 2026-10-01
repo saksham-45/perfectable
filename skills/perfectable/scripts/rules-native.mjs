@@ -190,6 +190,83 @@ export const NATIVE_RULES = [
       return [];
     },
   },
+  {
+    id: 'winui-web-pill-radius',
+    category: 'slop',
+    severity: 'warning',
+    immediate: true,
+    name: 'Web pill radius on desktop control',
+    description: 'CornerRadius on desktop controls should follow Fluent 2: 4px for buttons and inputs, 8px for cards. Avoid web pill buttons.',
+    test(file, content) {
+      if (!file.endsWith('.xaml')) return [];
+      const m = content.match(/<(?:Button|TextBox|ComboBox|ToggleButton)\b[^>]*\bCornerRadius\s*=\s*["'](?:1[6-9]|[2-9]\d|\d{3,})["']/i);
+      if (m) return [hit(this, file, content, m.index)];
+      return [];
+    },
+  },
+  {
+    id: 'winui-hardcoded-margins',
+    category: 'layout',
+    severity: 'warning',
+    immediate: true,
+    name: 'Asymmetric non-rhythm margin',
+    description: 'Margin uses non-standard spacing. Desktop layouts align to a 4px/8px rhythm (0, 2, 4, 8, 12, 16, 24, 32).',
+    test(file, content) {
+      if (!file.endsWith('.xaml')) return [];
+      for (const m of content.matchAll(/\bMargin\s*=\s*["']([^"']+)["']/g)) {
+        const parts = m[1].split(/[\s,]+/).map((v) => Number(v.trim())).filter((v) => !isNaN(v));
+        if (parts.some((n) => Math.abs(n) > 3 && Math.abs(n) % 2 !== 0)) {
+          return [hit(this, file, content, m.index)];
+        }
+      }
+      return [];
+    },
+  },
+  {
+    id: 'winui-unvirtualized-scroll',
+    category: 'ide',
+    severity: 'error',
+    immediate: true,
+    name: 'Unvirtualized StackPanel scroll',
+    description: 'StackPanel inside ScrollViewer disables UI virtualization. Use ListView, ItemsRepeater, or VirtualizingStackPanel.',
+    test(file, content) {
+      if (!file.endsWith('.xaml')) return [];
+      const idx = content.search(/<ScrollViewer\b[^>]*>\s*<StackPanel\b/i);
+      if (idx >= 0) return [hit(this, file, content, idx)];
+      return [];
+    },
+  },
+  {
+    id: 'winui-zigzag-form',
+    category: 'layout',
+    severity: 'warning',
+    immediate: true,
+    name: 'Zig-zag form fields',
+    description: 'Horizontal StackPanels for form fields cause ragged zig-zag alignment. Use a 2-column Grid so inputs share a single vertical alignment axis.',
+    test(file, content) {
+      if (!file.endsWith('.xaml')) return [];
+      const pattern = /<StackPanel\b[^>]*Orientation\s*=\s*["']Horizontal["'][^>]*>[\s\S]*?<TextBlock\b[\s\S]*?<(?:TextBox|ComboBox|PasswordBox)\b/gi;
+      const matches = [...content.matchAll(pattern)];
+      if (matches.length >= 2) {
+        return [hit(this, file, content, matches[0].index)];
+      }
+      return [];
+    },
+  },
+  {
+    id: 'qt-hardcoded-pill-radius',
+    category: 'slop',
+    severity: 'warning',
+    immediate: true,
+    name: 'Pill radius on desktop Qt control',
+    description: 'Pill radius on desktop tool button. Desktop Qt controls use subtle rounding (2–4px) matching platform style.',
+    test(file, content) {
+      if (!file.endsWith('.qml')) return [];
+      const m = content.match(/\b(?:Button|ToolButton|RoundButton)\b[\s\S]{0,120}\bradius\s*:\s*(?:1[6-9]|[2-9]\d|height\s*\/\s*2)/i);
+      if (m) return [hit(this, file, content, m.index)];
+      return [];
+    },
+  },
 ];
 
 function projectHit(rule, host, index) {
@@ -245,10 +322,11 @@ export const NATIVE_PROJECT_RULES = [
     run(files) {
       const joined = files.map((f) => f.content).join('\n');
       if (/DocumentGroup|FileDocument/.test(joined)) return [];
-      const editor = files.find((f) => /TextEditor\(|QPlainTextEdit|x:Name="Editor"|TextBox/.test(f.content));
+      const editorRe = /TextEditor\(|QPlainTextEdit|x:Name="Editor"|TextBox\b[^>]*AcceptsReturn\s*=\s*["']True["']/i;
+      const editor = files.find((f) => editorRe.test(f.content));
       if (!editor) return [];
       if (DIRTY.test(joined)) return [];
-      return [projectHit(this, editor, editor.content.search(/TextEditor\(|QPlainTextEdit|x:Name="Editor"|TextBox/))];
+      return [projectHit(this, editor, editor.content.search(editorRe))];
     },
   },
   {
@@ -291,6 +369,67 @@ export const NATIVE_PROJECT_RULES = [
       if (!win) return [];
       if (files.some((f) => /\bMenuBar\b|menuBar\s*\(/.test(f.content))) return [];
       return [projectHit(this, win, win.content.search(/ApplicationWindow|QMainWindow|Window\s*\{/))];
+    },
+  },
+  {
+    id: 'winui-missing-min-size',
+    category: 'platform',
+    severity: 'warning',
+    name: 'WinUI Window has no minimum bounds',
+    description: 'Window has no MinWidth / MinHeight. Without minimum bounds, resizing can collapse controls and clip chrome.',
+    run(files) {
+      const wins = files.filter((f) => f.file.endsWith('.xaml') && /<Window\b/i.test(f.content));
+      const out = [];
+      for (const win of wins) {
+        if (!/MinWidth\s*=/i.test(win.content) && !/MinHeight\s*=/i.test(win.content)) {
+          const idx = win.content.search(/<Window\b/i);
+          out.push(projectHit(this, win, idx));
+        }
+      }
+      return out;
+    },
+  },
+  {
+    id: 'qt-missing-mnemonics',
+    category: 'platform',
+    severity: 'warning',
+    name: 'Qt menu missing mnemonic',
+    description: 'Menu title in MenuBar has no keyboard mnemonic (&). Desktop menus require Alt-key navigation (e.g. &File).',
+    run(files) {
+      const qmlFiles = files.filter((f) => f.file.endsWith('.qml') && /\bMenuBar\b/.test(f.content));
+      const out = [];
+      for (const qf of qmlFiles) {
+        const menus = [...qf.content.matchAll(/\bMenu\s*\{[^}]*\btitle\s*:\s*["']([^"']+)["']/g)];
+        for (const m of menus) {
+          if (!m[1].includes('&')) {
+            out.push(projectHit(this, qf, m.index));
+            break;
+          }
+        }
+      }
+      return out;
+    },
+  },
+  {
+    id: 'winui-missing-dialog-bindings',
+    category: 'platform',
+    severity: 'warning',
+    name: 'Dialog missing default button binding',
+    description: 'ContentDialog has button actions but no DefaultButton property. Desktop dialogs must bind a default action to Enter.',
+    run(files) {
+      const xamlFiles = files.filter((f) => f.file.endsWith('.xaml') && /<ContentDialog\b/i.test(f.content));
+      const out = [];
+      for (const xf of xamlFiles) {
+        for (const m of xf.content.matchAll(/<ContentDialog\b([^>]*)/gi)) {
+          const attrs = m[1];
+          const hasButtons = /PrimaryButtonText|SecondaryButtonText|CloseButtonText/.test(attrs);
+          const hasDefault = /DefaultButton\s*=/.test(attrs);
+          if (hasButtons && !hasDefault) {
+            out.push(projectHit(this, xf, m.index));
+          }
+        }
+      }
+      return out;
     },
   },
 ];

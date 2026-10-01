@@ -1,0 +1,35 @@
+<Window
+    x:Class="App.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Sloppy Windows App">
+
+    <Grid>
+        <!-- Unvirtualized scroll -->
+        <ScrollViewer Height="200">
+            <StackPanel>
+                <TextBlock Text="Item 1"/>
+                <TextBlock Text="Item 2"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Zigzag horizontal form rows -->
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Name:"/>
+            <TextBox Margin="13,7,21,5"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Email Address:"/>
+            <TextBox Margin="8,0,0,0"/>
+        </StackPanel>
+
+        <!-- Web pill radius on desktop button -->
+        <Button Content="Submit" CornerRadius="24"/>
+
+        <!-- ContentDialog with buttons but no default binding -->
+        <ContentDialog
+            Title="Unbound Dialog"
+            PrimaryButtonText="Save"
+            CloseButtonText="Cancel"/>
+    </Grid>
+</Window>

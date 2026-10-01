@@ -57,6 +57,17 @@ export function walkAx(node, visit) {
   for (const child of node.children || []) walkAx(child, visit);
 }
 
+function getBounds(node) {
+  const b = node.bounds || node.rect;
+  if (!b || typeof b !== 'object') return null;
+  const x = Number(b.x);
+  const y = Number(b.y);
+  const width = Number(b.width);
+  const height = Number(b.height);
+  if (isNaN(x) || isNaN(y) || isNaN(width) || isNaN(height)) return null;
+  return { x, y, width, height };
+}
+
 export function scoreAx(tree) {
   const findings = [];
   let menu = false;
@@ -118,6 +129,107 @@ export function scoreAx(tree) {
       snippet: 'caption',
     });
   }
+  // Layout geometry & bounds checks
+  walkAx(tree, (node) => {
+    const role = String(node.role || '');
+    const title = String(node.title || '').trim();
+    const bounds = getBounds(node);
+    if (!bounds) return;
+
+    const isInteractive = /button|edit|combobox|checkbox|radiobutton|slider/i.test(role) && !/menu\s*item/i.test(role);
+    if (isInteractive) {
+      if (bounds.width <= 0 || bounds.height <= 0 || (bounds.width > 0 && bounds.width < 16) || (bounds.height > 0 && bounds.height < 16)) {
+        findings.push({
+          id: 'layout-sub-minimum-target',
+          severity: 'error',
+          name: 'Interactive control below minimum target size',
+          message: `Control "${title || role}" has dimensions ${bounds.width}×${bounds.height}px, below the 16px minimum click target floor.`,
+          file: 'ax',
+          line: 1,
+          snippet: role,
+        });
+      }
+    }
+
+    const isRow = /item|row|treeitem|listitem/i.test(role) && !/menu\s*item/i.test(role);
+    if (isRow && bounds.height > 52) {
+      findings.push({
+        id: 'layout-excessive-row-height',
+        severity: 'warning',
+        name: 'Excessive desktop row height',
+        message: `Desktop row "${title || role}" has height ${bounds.height}px (>52px). Desktop data lists and trees use compact platform row density, not mobile touch metrics.`,
+        file: 'ax',
+        line: 1,
+        snippet: role,
+      });
+    }
+  });
+
+  function checkOverlaps(parent) {
+    if (!parent || !parent.children || !Array.isArray(parent.children)) return;
+    const kids = parent.children;
+    for (let i = 0; i < kids.length; i++) {
+      const c1 = kids[i];
+      const b1 = getBounds(c1);
+      if (!b1 || b1.width <= 0 || b1.height <= 0) continue;
+      const r1 = String(c1.role || '');
+      if (!/button|edit|combobox|checkbox|radiobutton|hyperlink/i.test(r1)) continue;
+
+      for (let j = i + 1; j < kids.length; j++) {
+        const c2 = kids[j];
+        const b2 = getBounds(c2);
+        if (!b2 || b2.width <= 0 || b2.height <= 0) continue;
+        const r2 = String(c2.role || '');
+        if (!/button|edit|combobox|checkbox|radiobutton|hyperlink/i.test(r2)) continue;
+
+        const xOverlap = Math.max(0, Math.min(b1.x + b1.width, b2.x + b2.width) - Math.max(b1.x, b2.x));
+        const yOverlap = Math.max(0, Math.min(b1.y + b1.height, b2.y + b2.height) - Math.max(b1.y, b2.y));
+        const area = xOverlap * yOverlap;
+        if (xOverlap > 4 && yOverlap > 4 && area > 16) {
+          findings.push({
+            id: 'layout-overlapping-controls',
+            severity: 'error',
+            name: 'Overlapping controls',
+            message: `Sibling controls "${c1.title || c1.role}" and "${c2.title || c2.role}" overlap by ${Math.round(area)}px². Sibling controls must not occlude each other.`,
+            file: 'ax',
+            line: 1,
+            snippet: `${c1.role} <-> ${c2.role}`,
+          });
+        }
+      }
+    }
+    for (const child of kids) checkOverlaps(child);
+  }
+  checkOverlaps(tree);
+
+  function checkZigzag(parent) {
+    if (!parent || !parent.children || !Array.isArray(parent.children)) return;
+    const inputs = parent.children.filter((c) => {
+      const r = String(c.role || '');
+      const b = getBounds(c);
+      return b && b.width > 0 && /edit|textbox|combobox/i.test(r);
+    });
+    if (inputs.length >= 2) {
+      for (let i = 0; i < inputs.length - 1; i++) {
+        const b1 = getBounds(inputs[i]);
+        const b2 = getBounds(inputs[i + 1]);
+        if (Math.abs(b1.y - b2.y) >= 24 && Math.abs(b1.x - b2.x) > 8) {
+          findings.push({
+            id: 'layout-form-zigzag',
+            severity: 'warning',
+            name: 'Misaligned form inputs',
+            message: `Form input fields are horizontally misaligned (X: ${Math.round(b1.x)}px vs ${Math.round(b2.x)}px). Form inputs must share a vertical alignment axis.`,
+            file: 'ax',
+            line: 1,
+            snippet: `${inputs[i].role} vs ${inputs[i + 1].role}`,
+          });
+          break;
+        }
+      }
+    }
+    for (const child of parent.children) checkZigzag(child);
+  }
+  checkZigzag(tree);
   return findings;
 }
 

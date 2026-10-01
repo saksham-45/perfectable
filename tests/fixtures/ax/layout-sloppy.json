@@ -1,0 +1,50 @@
+{
+  "role": "ControlType.Window",
+  "title": "Sloppy Workspace",
+  "bounds": { "x": 0, "y": 0, "width": 1024, "height": 768 },
+  "children": [
+    {
+      "role": "ControlType.MenuBar",
+      "title": "Application Menu",
+      "bounds": { "x": 0, "y": 0, "width": 1024, "height": 30 },
+      "children": []
+    },
+    {
+      "role": "ControlType.Pane",
+      "title": "TitleBar",
+      "bounds": { "x": 0, "y": 0, "width": 1024, "height": 32 },
+      "children": [
+        { "role": "ControlType.Button", "title": "Minimize", "bounds": { "x": 904, "y": 0, "width": 40, "height": 32 }, "children": [] },
+        { "role": "ControlType.Button", "title": "Maximize", "bounds": { "x": 944, "y": 0, "width": 40, "height": 32 }, "children": [] },
+        { "role": "ControlType.Button", "title": "Close", "bounds": { "x": 984, "y": 0, "width": 40, "height": 32 }, "children": [] }
+      ]
+    },
+    {
+      "role": "ControlType.Pane",
+      "title": "Toolbar",
+      "bounds": { "x": 0, "y": 32, "width": 1024, "height": 40 },
+      "children": [
+        { "role": "ControlType.Button", "title": "Button A", "bounds": { "x": 10, "y": 36, "width": 80, "height": 32 }, "children": [] },
+        { "role": "ControlType.Button", "title": "Button B", "bounds": { "x": 40, "y": 36, "width": 80, "height": 32 }, "children": [] },
+        { "role": "ControlType.Button", "title": "Tiny", "bounds": { "x": 200, "y": 36, "width": 10, "height": 10 }, "children": [] }
+      ]
+    },
+    {
+      "role": "ControlType.List",
+      "title": "Touch-Bloated Tree",
+      "bounds": { "x": 0, "y": 72, "width": 240, "height": 660 },
+      "children": [
+        { "role": "ControlType.ListItem", "title": "Bloated Row", "bounds": { "x": 0, "y": 72, "width": 240, "height": 64 }, "children": [] }
+      ]
+    },
+    {
+      "role": "ControlType.Pane",
+      "title": "Zigzag Form",
+      "bounds": { "x": 240, "y": 72, "width": 784, "height": 660 },
+      "children": [
+        { "role": "ControlType.Edit", "title": "Name", "bounds": { "x": 300, "y": 100, "width": 200, "height": 28 }, "children": [] },
+        { "role": "ControlType.Edit", "title": "Email", "bounds": { "x": 380, "y": 140, "width": 200, "height": 28 }, "children": [] }
+      ]
+    }
+  ]
+}

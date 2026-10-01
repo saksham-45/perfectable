@@ -1,0 +1,52 @@
+{
+  "role": "ControlType.Window",
+  "title": "Clean Workspace",
+  "bounds": { "x": 0, "y": 0, "width": 1024, "height": 768 },
+  "children": [
+    {
+      "role": "ControlType.MenuBar",
+      "title": "Application Menu",
+      "bounds": { "x": 0, "y": 0, "width": 1024, "height": 30 },
+      "children": []
+    },
+    {
+      "role": "ControlType.Pane",
+      "title": "TitleBar",
+      "bounds": { "x": 0, "y": 0, "width": 1024, "height": 32 },
+      "children": [
+        { "role": "ControlType.Button", "title": "Minimize", "bounds": { "x": 904, "y": 0, "width": 40, "height": 32 }, "children": [] },
+        { "role": "ControlType.Button", "title": "Maximize", "bounds": { "x": 944, "y": 0, "width": 40, "height": 32 }, "children": [] },
+        { "role": "ControlType.Button", "title": "Close", "bounds": { "x": 984, "y": 0, "width": 40, "height": 32 }, "children": [] }
+      ]
+    },
+    {
+      "role": "ControlType.Pane",
+      "title": "Toolbar",
+      "bounds": { "x": 0, "y": 32, "width": 1024, "height": 40 },
+      "children": [
+        { "role": "ControlType.Button", "title": "New File", "bounds": { "x": 8, "y": 36, "width": 80, "height": 32 }, "children": [] },
+        { "role": "ControlType.Button", "title": "Open File", "bounds": { "x": 96, "y": 36, "width": 80, "height": 32 }, "children": [] },
+        { "role": "ControlType.Button", "title": "Save File", "bounds": { "x": 184, "y": 36, "width": 80, "height": 32 }, "children": [] }
+      ]
+    },
+    {
+      "role": "ControlType.List",
+      "title": "File Navigator",
+      "bounds": { "x": 0, "y": 72, "width": 240, "height": 660 },
+      "children": [
+        { "role": "ControlType.ListItem", "title": "src", "bounds": { "x": 0, "y": 72, "width": 240, "height": 24 }, "children": [] },
+        { "role": "ControlType.ListItem", "title": "main.rs", "bounds": { "x": 0, "y": 96, "width": 240, "height": 24 }, "children": [] },
+        { "role": "ControlType.ListItem", "title": "lib.rs", "bounds": { "x": 0, "y": 120, "width": 240, "height": 24 }, "children": [] }
+      ]
+    },
+    {
+      "role": "ControlType.Pane",
+      "title": "Form Settings",
+      "bounds": { "x": 240, "y": 72, "width": 784, "height": 660 },
+      "children": [
+        { "role": "ControlType.Edit", "title": "Username", "bounds": { "x": 360, "y": 100, "width": 240, "height": 28 }, "children": [] },
+        { "role": "ControlType.Edit", "title": "Server Host", "bounds": { "x": 360, "y": 140, "width": 240, "height": 28 }, "children": [] }
+      ]
+    }
+  ]
+}

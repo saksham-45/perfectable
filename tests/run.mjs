@@ -148,6 +148,17 @@ function fixture(name) {
   const r = run(['detect', '--json', '.'], f);
   assert.equal(r.status, 0, `Native WinUI should pass: ${r.stdout}`);
 }
+{
+  const f = fixture('clean-xaml-layout');
+  const r = run(['detect', '--json', '.'], f);
+  assert.equal(r.status, 0, `Clean XAML layout should pass: ${r.stdout}`);
+}
+
+{
+  const f = fixture('clean-qt');
+  const r = run(['detect', '--json', '.'], f);
+  assert.equal(r.status, 0, `Clean Qt should pass: ${r.stdout}`);
+}
 
 {
   const f = fixture('uncovered-swift');
@@ -165,6 +176,8 @@ function fixture(name) {
     'sloppy-flutter': ['flutter-unvirtualized-list'],
     'sloppy-gtk': ['gtk-css-hardcoded'],
     'sloppy-winui': ['winui-hardcoded-chrome', 'winui-settings-dialog', 'no-native-open', 'no-dirty-indicator'],
+    'sloppy-xaml-layout': ['winui-missing-min-size', 'winui-unvirtualized-scroll', 'winui-zigzag-form', 'winui-hardcoded-margins', 'winui-web-pill-radius', 'winui-missing-dialog-bindings'],
+    'sloppy-qt-pill': ['qt-missing-mnemonics', 'qt-hardcoded-pill-radius'],
   };
   for (const [name, expected] of Object.entries(cases)) {
     const r = run(['detect', '--json', '.'], fixture(name));
@@ -189,6 +202,15 @@ function fixture(name) {
     const r = run(['prove', '--ax', path.join(PKG_ROOT, 'tests', 'fixtures', 'ax', name)]);
     assert.equal(r.status, 0, `${name}: ${r.stdout}`);
   }
+  const axClean = run(['prove', '--ax', path.join(PKG_ROOT, 'tests', 'fixtures', 'ax', 'layout-clean.json')]);
+  assert.equal(axClean.status, 0, `layout-clean.json should pass: ${axClean.stdout}`);
+  const axSloppy = run(['prove', '--ax', path.join(PKG_ROOT, 'tests', 'fixtures', 'ax', 'layout-sloppy.json')]);
+  assert.equal(axSloppy.status, 2, `layout-sloppy.json should fail: ${axSloppy.stdout}`);
+  const axIds = JSON.parse(axSloppy.stdout).findings.map((f) => f.id);
+  assert.ok(axIds.includes('layout-overlapping-controls'), 'missing layout-overlapping-controls');
+  assert.ok(axIds.includes('layout-sub-minimum-target'), 'missing layout-sub-minimum-target');
+  assert.ok(axIds.includes('layout-excessive-row-height'), 'missing layout-excessive-row-height');
+  assert.ok(axIds.includes('layout-form-zigzag'), 'missing layout-form-zigzag');
 }
 
 {

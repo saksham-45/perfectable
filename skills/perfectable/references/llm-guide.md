@@ -256,6 +256,20 @@ The detector catches these — don't make the user run detect to find them:
 - Unvirtualized file trees (`.map` without react-window/virtuoso)
 - `<textarea value={...}>` whole-buffer editors (use Monaco/CodeMirror)
 
+- `CornerRadius="24"` / `radius: 20` on desktop controls (use 2–4px subtle rounding; pills are web slop)
+- Asymmetric non-rhythm margins like `Margin="13,7,21,5"` (align to 4px/8px rhythm: 0, 2, 4, 8, 12, 16, 24, 32)
+- Horizontal `StackPanel` rows for form inputs causing zig-zag alignment (use 2-column `Grid`)
+- Unvirtualized scrolling (`<ScrollViewer><StackPanel>` in XAML, `Repeater` in QML; use `ListView`)
+- Unbound dialog confirmation/cancel keys (bind `DefaultButton="Primary"` or `IsDefault="True"` / `IsCancel="True"`)
+- Windows without `MinWidth` / `MinHeight` (prevents window collapsing to 0x0)
+- Hardcoded hex colors in XAML / Qt (use `{ThemeResource ...}` for Windows High Contrast)
+
+## Framework Recipes
+
+When generating or refactoring desktop UI code, follow the framework recipes:
+- **Windows WinUI 3 & WPF**: [recipes/windows-xaml.md](recipes/windows-xaml.md)
+- **Qt Quick & QML**: [recipes/qt-qml.md](recipes/qt-qml.md)
+- **Electron & Tauri**: [recipes/electron-tauri.md](recipes/electron-tauri.md)
 ## Escalation
 
 If detector crashes or gives unclear results:
